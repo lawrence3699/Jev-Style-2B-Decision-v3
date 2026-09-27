@@ -1,0 +1,81 @@
+{
+  "note": "copies of the verification / benchmark records behind release_config.json and the model card; local absolute paths replaced by repository-relative ones (local_paths_scrubbed); source_sha256 = the unmodified file (equal to the published copy when local_paths_scrubbed is false)",
+  "files": {
+    "parity/cross_format_dp.json": {
+      "source": "runs/macjev/release_2b/parity/cross_format_dp.json",
+      "source_sha256": "c7332df0f02244416b01e49ecb037c76d4bf2643a2b42505ff1dfe896879e533",
+      "local_paths_scrubbed": false
+    },
+    "parity/PREDECLARED_RELEASE_GATES_2B.md": {
+      "source": "runs/macjev/runtime_v2_dev/PREDECLARED_RELEASE_GATES_2B.md",
+      "source_sha256": "783aec77300779582911cdc57c71cf8b101b0cd5ca040073f7e1fa3ac20af08e",
+      "local_paths_scrubbed": false
+    },
+    "runtime/parity_cpu_fp32_t4.log": {
+      "source": "runs/macjev/runtime_v2_dev/verify_release_torch/parity_cpu_fp32_t4.log",
+      "source_sha256": "616618ec2b61c472137ea4cb418dc0b79019b699e7fa6f044bf06c166cb970ba",
+      "local_paths_scrubbed": false
+    },
+    "runtime/parity_mps_fp32_long.log": {
+      "source": "runs/macjev/runtime_v2_dev/verify_release_torch/parity_mps_fp32_long.log",
+      "source_sha256": "04e40ead1c8694fb3bbda9714074701777ea48d8d2cb3489df738ad902f351d8",
+      "local_paths_scrubbed": false
+    },
+    "runtime/v_tiny_and_render.json": {
+      "source": "runs/macjev/runtime_v2_dev/verify_release_torch/v_tiny_and_render.json",
+      "source_sha256": "d3ff75211cfac2f26f0f7763ee937dee8d1e01eceae43e37f16f9ec5d0bb02bf",
+      "local_paths_scrubbed": false
+    },
+    "runtime/v_jevstyle_e2e.json": {
+      "source": "runs/macjev/runtime_v2_dev/verify_release_torch/v_jevstyle_e2e.json",
+      "source_sha256": "812cbee4d6c8b0af5cd81b6b5aaa8b24f55c07c0ec934cc81c8f61c634e734a6",
+      "local_paths_scrubbed": false
+    },
+    "runtime/reverify_main.json": {
+      "source": "runs/macjev/hf_staging/_2b_tools/reverify_main.json",
+      "source_sha256": "3b8e573deb626385ce469b289e8e753d60c499ce21efcdeefd20a8e44b4d6c0a",
+      "local_paths_scrubbed": false
+    },
+    "runtime/reverify_main_mps_long.log": {
+      "source": "runs/macjev/hf_staging/_2b_tools/reverify_main_mps_long.log",
+      "source_sha256": "98720ecc5f12d24f7a12add39a7cf332f12c300c8177eed2665a3077d0e0f0b1",
+      "local_paths_scrubbed": false
+    },
+    "benchmarks/jevbench_v1.4.1_results.json": {
+      "source": "runs/macjev/bench_2b/jevbench/gguf_f16/results.json",
+      "source_sha256": "9a467fb4ddcc9a42f9d82ff8f8cf1ce5cfafd51d27b8d4dca2b9c1a681f67a9c",
+      "local_paths_scrubbed": false
+    },
+    "benchmarks/jevbench_v1.4.1_results.md": {
+      "source": "runs/macjev/bench_2b/jevbench/gguf_f16/results.md",
+      "source_sha256": "824ffa6ae920595e9277c9d6c41770bf6b2d9fc2e71ff7de9afe6ee635b69ae8",
+      "local_paths_scrubbed": false
+    },
+    "benchmarks/zeroshot_metrics.json": {
+      "source": "runs/macjev/bench_2b/zeroshot/gguf_f16/metrics.json",
+      "source_sha256": "f80c80ae55678cce974927df0c6a33a5bf5e2ba85e9b14a181e6e5d16bcee3c5",
+      "local_paths_scrubbed": true,
+      "published_sha256": "479ddbaa101f843487471500061906e78ce28f9af09c65eaadc3cee4b5ebdb4a"
+    },
+    "benchmarks/zeroshot_comparison.md": {
+      "source": "runs/macjev/bench_2b/zeroshot/gguf_f16/comparison.md",
+      "source_sha256": "34828fa9375ea717c866b1e749d3fe902f0b52303c807289a769934760f6dad0",
+      "local_paths_scrubbed": false
+    },
+    "benchmarks/contamination.json": {
+      "source": "runs/macjev/release_2b/cards/_build/contamination_public.json",
+      "source_sha256": "87f7f645b950b4cd626ff248b1899578c078db74d4c74bc944b017badc06a8e8",
+      "local_paths_scrubbed": false
+    },
+    "latency_2b.json": {
+      "source": "runs/macjev/release_2b/latency_2b.json",
+      "source_sha256": "458d00e0c81b3165072b8547278e6039b9ae0d45d54b7421008ef24c1d24ca3d",
+      "local_paths_scrubbed": false
+    },
+    "data_sources.json": {
+      "source": "runs/macjev/release_2b/cards/_build/data_sources.json",
+      "source_sha256": "415fa9dcb893dc71d97d76652fbf03600a72681c15f7248ef46035d85ea56d7c",
+      "local_paths_scrubbed": false
+    }
+  }
+}

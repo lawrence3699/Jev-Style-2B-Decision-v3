@@ -1,0 +1,23 @@
+{
+  "runtime_file": "jev_style_decision.py",
+  "runtime_sha256": "5ecba24cdfff4f0e043c2ea48c9c7f514907c6804f265906e21dec0f1b20dbd6",
+  "shared_core_sha256": "56deae095206fc59b9a30d8626ac5d27cacddcd94d7c7f08f6f4bc53d326a002",
+  "what": "PyTorch FP32 CPU, requests with <= 6000 tokens per question",
+  "loaded_from": "runs/macjev/hf_staging/Jev-Style-2B-Decision-v3",
+  "verify_manifest": true,
+  "compared_with": {
+    "file": "runs/macjev/runtime_v2_dev/reference_trained/ref_block_fp32.jsonl",
+    "sha256": "09ff7d4fdd97c52c28429139a4f8d53dd224a5e0bcc69b1a318978abad5e136c"
+  },
+  "fixture": {
+    "file": "runs/macjev/runtime_v2_dev/reference_base/fixture.jsonl",
+    "sha256": "2b16d25eafa70c00a1106ba51b94890821b51ecb4fa393abb12403c8739ef314"
+  },
+  "questions": 34,
+  "skipped_questions": 9,
+  "max_abs_score_diff": 1.5020370483398438e-05,
+  "top1_same": "34/34",
+  "token_or_overflow_mismatches": [],
+  "seconds": 411.6,
+  "finished_unix": 1790449904.6816142
+}

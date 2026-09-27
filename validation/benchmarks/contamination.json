@@ -1,0 +1,110 @@
+{
+  "note": "Public copy of the contamination scan of the 2B training pool. Matched pool rows are given by their dataset id (pool_row_sources); per-source pool row counts and internal records are not included. zeroshot.sets lists the three zero-shot sets this model was evaluated on (tweet_topic, fin_topic, daily_dialog).",
+  "pool": "reduced-v1/main",
+  "files": [
+    "train.jsonl",
+    "format_train.jsonl",
+    "dev.jsonl",
+    "cal.jsonl"
+  ],
+  "rows_scanned": {
+    "train.jsonl": 463208,
+    "format_train.jsonl": 500,
+    "dev.jsonl": 27109,
+    "cal.jsonl": 3325
+  },
+  "decode": {
+    "prefix_exact": 494142,
+    "head_parsed": 493642
+  },
+  "tokenizer": "Qwen/Qwen3.5-2B@15852e8c16360a2fea060d615a32b45270f8a8fc",
+  "seconds": 318.62241888046265,
+  "jevbench": {
+    "n_items": 231,
+    "hits_state": [],
+    "hits_ins": [],
+    "hits_leaf": [],
+    "hits_ngram_state": {},
+    "hits_ngram_ins_extension": {},
+    "n_items_with_ngram_hits_state": 0,
+    "n_items_with_ngram_hits_ins": 0,
+    "method": {
+      "state": "content_hash of the whole serialized state",
+      "ins": "content_hash of the instruction",
+      "leaf": "content_hash of every state string leaf >= 32 chars",
+      "ngram": "13-word shingles of the normalized state (pool stride 4); extension: same on the pool instruction"
+    }
+  },
+  "zeroshot": {
+    "shingle": 8,
+    "near_dup_fraction": 0.5,
+    "sets": {
+      "tweet_topic": {
+        "n": 1693,
+        "exact_overlap": 0,
+        "exact_overlap_generic_short": 0,
+        "near_duplicate_only": 0,
+        "exact_pool_rows_by_file": {},
+        "near_pool_rows_by_file": {},
+        "examples": [],
+        "generic_examples": [],
+        "near_examples": []
+      },
+      "fin_topic": {
+        "n": 4117,
+        "exact_overlap": 0,
+        "exact_overlap_generic_short": 0,
+        "near_duplicate_only": 0,
+        "exact_pool_rows_by_file": {},
+        "near_pool_rows_by_file": {},
+        "examples": [],
+        "generic_examples": [],
+        "near_examples": []
+      },
+      "daily_dialog": {
+        "n": 7740,
+        "exact_overlap": 0,
+        "exact_overlap_generic_short": 1,
+        "near_duplicate_only": 3,
+        "exact_pool_rows_by_file": {},
+        "near_pool_rows_by_file": {
+          "train.jsonl": 5
+        },
+        "examples": [],
+        "generic_examples": [
+          {
+            "dataset_index": 3850,
+            "text": " Thanks a lot ",
+            "pool_row_sources": [
+              "train.jsonl:google-research-datasets/schema_guided_dstc8",
+              "train.jsonl:clinc150"
+            ]
+          }
+        ],
+        "near_examples": [
+          {
+            "dataset_index": 3522,
+            "text": " What do you like to do in your spare time ? ",
+            "pool_row_sources": [
+              "train.jsonl:clinc150"
+            ]
+          },
+          {
+            "dataset_index": 1034,
+            "text": " Is there anything else I can do for you ? ",
+            "pool_row_sources": [
+              "train.jsonl:google-research-datasets/schema_guided_dstc8"
+            ]
+          },
+          {
+            "dataset_index": 1604,
+            "text": " What was the score at the end of the game ? ",
+            "pool_row_sources": [
+              "train.jsonl:ucinlp/drop"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

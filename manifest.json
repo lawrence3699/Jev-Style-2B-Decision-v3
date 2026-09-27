@@ -1,0 +1,170 @@
+{
+  "format": "jev-style-manifest-v1",
+  "repo": "chaoliangUNSW/Jev-Style-2B-Decision-v3",
+  "created_unix": 1790476262.791195,
+  "files": {
+    "LICENSE": {
+      "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
+      "bytes": 11544
+    },
+    "NOTICE": {
+      "sha256": "937fb1f4a643708c77dbe48cd483cb0998874feadbb107f1ca536a3ec654a0c4",
+      "bytes": 2406
+    },
+    "README.md": {
+      "sha256": "b3d39950f74a583ec0e4e89afd779c99ccfe93da8f4d0d453fd423e84b561f6a",
+      "bytes": 25217
+    },
+    "chat_template.jinja": {
+      "sha256": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",
+      "bytes": 7755
+    },
+    "config.json": {
+      "sha256": "88bf86c270d616198909ed1eefef8d8c21ac1fa13f62e947f20f8e1ebd02c211",
+      "bytes": 1791
+    },
+    "eval_results.json": {
+      "sha256": "8cecf3a823603300d6fb2c94b4d87239a6c7e88b31c89f381e1fdb581a0a36fb",
+      "bytes": 9901
+    },
+    "figures/banner.data.json": {
+      "sha256": "397cbfb222986f8d59a65143f2fec5a11170385c661a86c5e54d890a24d7d89e",
+      "bytes": 1109
+    },
+    "figures/banner.png": {
+      "sha256": "2623e4afad36239aaa007c34350d6f2fbacb33430ffd3c36ce2f7ee7db849b47",
+      "bytes": 447467
+    },
+    "figures/jevbench.data.json": {
+      "sha256": "508994afea8d8b1bc33e25c675621a9b3b55b01f900daa688c240c8356dffe3b",
+      "bytes": 2387
+    },
+    "figures/jevbench.png": {
+      "sha256": "c8542dba9ecc1bd2a4ea3bda844cbc3fbd661c40d6eb9254098b279a92a74ce8",
+      "bytes": 167843
+    },
+    "figures/jevbench.svg": {
+      "sha256": "13193f8d636ad5e6685cbc58863f27bced87c0ead94c252917839c7c6eed837e",
+      "bytes": 12280
+    },
+    "figures/zeroshot.data.json": {
+      "sha256": "3ad81c3dc926c988db5c339eec4991c2e2cce46faafb89db99cc47d6d8737538",
+      "bytes": 1841
+    },
+    "figures/zeroshot.png": {
+      "sha256": "d51f9a7bc46b88d8dcf5ba46f15d479c781302ca531208ff0838106da8aae755",
+      "bytes": 137714
+    },
+    "figures/zeroshot.svg": {
+      "sha256": "f3234ba4715b0d87e081ec9fc52c0b409010612f54db7aa39307a9eda3b7545f",
+      "bytes": 13874
+    },
+    "generation_config.json": {
+      "sha256": "62153eb6c69f2e1f426beaa8002b7186437e949c7588167085df14e10e9c0a73",
+      "bytes": 116
+    },
+    "jev_style_decision.py": {
+      "sha256": "5ecba24cdfff4f0e043c2ea48c9c7f514907c6804f265906e21dec0f1b20dbd6",
+      "bytes": 41304
+    },
+    "model-00001-of-00002.safetensors": {
+      "sha256": "df592f869cb1232226d31491b783bfa9406ffb3c795eae44a3b7452e1044a8fb",
+      "bytes": 1999936744
+    },
+    "model-00002-of-00002.safetensors": {
+      "sha256": "c6ff77a32a8cf36767e51c1282bb345a873db6509847f6c75baadd8fb17eeb70",
+      "bytes": 1763755048
+    },
+    "model.safetensors.index.json": {
+      "sha256": "f60ba6dc3c3cfb32baf76fbb5f851b1a35616ba04543c35640aa973bd3947c52",
+      "bytes": 31529
+    },
+    "readout_config.json": {
+      "sha256": "4af0d578c9126d4eb1a545b6e576e0a49a967243a47b8e99e3555f081fdaa1de",
+      "bytes": 2031
+    },
+    "release_config.json": {
+      "sha256": "1c4c6917b43773fdaa7eb5ccfe4c2ed790f0c2fba6bcc2977e20701940ebb03e",
+      "bytes": 30558
+    },
+    "requirements.txt": {
+      "sha256": "d653173d284907c39856430cf264acf73b24d3350a04b0d31da8739e7f801651",
+      "bytes": 272
+    },
+    "tokenizer.json": {
+      "sha256": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+      "bytes": 19989325
+    },
+    "tokenizer_config.json": {
+      "sha256": "66e427c470fe580fe8c7b5725d857af23d8417e37fae62667ec698306a19987b",
+      "bytes": 1124
+    },
+    "validation/SOURCES.json": {
+      "sha256": "5e35ae9eac7fc9e081693806bbf30b0bcd701d36f0807c3d29cad54c26ed2518",
+      "bytes": 4161
+    },
+    "validation/benchmarks/contamination.json": {
+      "sha256": "87f7f645b950b4cd626ff248b1899578c078db74d4c74bc944b017badc06a8e8",
+      "bytes": 3345
+    },
+    "validation/benchmarks/jevbench_v1.4.1_results.json": {
+      "sha256": "9a467fb4ddcc9a42f9d82ff8f8cf1ce5cfafd51d27b8d4dca2b9c1a681f67a9c",
+      "bytes": 15051
+    },
+    "validation/benchmarks/jevbench_v1.4.1_results.md": {
+      "sha256": "824ffa6ae920595e9277c9d6c41770bf6b2d9fc2e71ff7de9afe6ee635b69ae8",
+      "bytes": 1587
+    },
+    "validation/benchmarks/zeroshot_comparison.md": {
+      "sha256": "34828fa9375ea717c866b1e749d3fe902f0b52303c807289a769934760f6dad0",
+      "bytes": 1174
+    },
+    "validation/benchmarks/zeroshot_metrics.json": {
+      "sha256": "479ddbaa101f843487471500061906e78ce28f9af09c65eaadc3cee4b5ebdb4a",
+      "bytes": 8732
+    },
+    "validation/data_sources.json": {
+      "sha256": "415fa9dcb893dc71d97d76652fbf03600a72681c15f7248ef46035d85ea56d7c",
+      "bytes": 16696
+    },
+    "validation/latency_2b.json": {
+      "sha256": "458d00e0c81b3165072b8547278e6039b9ae0d45d54b7421008ef24c1d24ca3d",
+      "bytes": 40294
+    },
+    "validation/parity/PREDECLARED_RELEASE_GATES_2B.md": {
+      "sha256": "783aec77300779582911cdc57c71cf8b101b0cd5ca040073f7e1fa3ac20af08e",
+      "bytes": 2619
+    },
+    "validation/parity/cross_format_dp.json": {
+      "sha256": "c7332df0f02244416b01e49ecb037c76d4bf2643a2b42505ff1dfe896879e533",
+      "bytes": 1550
+    },
+    "validation/runtime/parity_cpu_fp32_t4.log": {
+      "sha256": "616618ec2b61c472137ea4cb418dc0b79019b699e7fa6f044bf06c166cb970ba",
+      "bytes": 4486
+    },
+    "validation/runtime/parity_mps_fp32_long.log": {
+      "sha256": "04e40ead1c8694fb3bbda9714074701777ea48d8d2cb3489df738ad902f351d8",
+      "bytes": 1008
+    },
+    "validation/runtime/reverify_main.json": {
+      "sha256": "3b8e573deb626385ce469b289e8e753d60c499ce21efcdeefd20a8e44b4d6c0a",
+      "bytes": 968
+    },
+    "validation/runtime/reverify_main_mps_long.log": {
+      "sha256": "98720ecc5f12d24f7a12add39a7cf332f12c300c8177eed2665a3077d0e0f0b1",
+      "bytes": 1007
+    },
+    "validation/runtime/v_jevstyle_e2e.json": {
+      "sha256": "812cbee4d6c8b0af5cd81b6b5aaa8b24f55c07c0ec934cc81c8f61c634e734a6",
+      "bytes": 1622
+    },
+    "validation/runtime/v_tiny_and_render.json": {
+      "sha256": "d3ff75211cfac2f26f0f7763ee937dee8d1e01eceae43e37f16f9ec5d0bb02bf",
+      "bytes": 406
+    }
+  },
+  "readme_hashed": true,
+  "readme_placeholder": false,
+  "note": "manifest.json hashes every file of the repo except itself, README.md, figures/ and validation/ included. The runtime --verify check (jev_style_decision.py) skips the documentation and evaluation records (README.md, figures/, assets/, validation/, eval_results.json) and checks every other listed file."
+}

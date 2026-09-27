@@ -1,0 +1,44 @@
+{
+ "left": {
+  "big": "73.6% on JevBench",
+  "sub": "+9.5 points over our 0.8B v3; Jev 86.6%",
+  "tokens": "25,600 tokens per call, no option cap"
+ },
+ "rows": [
+  {
+   "label": "Jev 1.13 (API)",
+   "accuracy": 0.8658008658008658,
+   "pct_1dp": 86.6
+  },
+  {
+   "label": "2B v3 \u00b7 this model",
+   "accuracy": 0.7359307359307359,
+   "pct_1dp": 73.6
+  },
+  {
+   "label": "decider-2b",
+   "accuracy": 0.70995670995671,
+   "pct_1dp": 71.0
+  },
+  {
+   "label": "Open-Jev 2B",
+   "accuracy": 0.645021645021645,
+   "pct_1dp": 64.5
+  },
+  {
+   "label": "0.8B v3",
+   "accuracy": 0.6406926406926406,
+   "pct_1dp": 64.1
+  },
+  {
+   "label": "Laya",
+   "accuracy": 0.5844155844155844,
+   "pct_1dp": 58.4
+  }
+ ],
+ "shown": "Shown: Qwen3.5-2B-family systems, our 0.8B v3, Laya and Jev \u00b7 42 of 82 board systems score higher than 73.6%",
+ "note": "231 public items. 2B v3: self-run with the official harness (GGUF F16), not an official board entry; 95% CI 67.6\u201378.9%, so the lead over decider-2b is inside the CI. Other rows as published on the v1.4.1 board.",
+ "sources": [
+  "figures/jevbench.data.json"
+ ]
+}

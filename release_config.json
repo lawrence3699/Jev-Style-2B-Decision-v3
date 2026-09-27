@@ -1,0 +1,804 @@
+{
+  "format": "jev-style-release-v1",
+  "model_name": "Jev-Style-2B-Decision-v3",
+  "repo": "chaoliangUNSW/Jev-Style-2B-Decision-v3",
+  "generation": "v3 (third generation of the Jev-Style decision series)",
+  "lineage": {
+    "v1": "chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision",
+    "v1_public_gguf": "chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-GGUF",
+    "v2": "chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-v2",
+    "v3_0.8b": "chaoliangUNSW/Jev-Style-0.8B-Decision-v3",
+    "v3_2b": "chaoliangUNSW/Jev-Style-2B-Decision-v3"
+  },
+  "base_model": "Qwen/Qwen3.5-2B",
+  "base_model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+  "base_model_relation": "finetune",
+  "architecture": "Qwen3_5ForCausalLM (text only, 24 layers: 18 Gated DeltaNet + 6 full attention, hidden 2048, tied embeddings, 1,881,825,088 parameters)",
+  "readout": "verdict",
+  "template": "macjev-render-v2-long-options",
+  "layout": "sb",
+  "attention": "block-causal in the 6 full-attention layers (2,048-token blocks, no causal mask inside a block); Gated DeltaNet recurrent",
+  "readout_config": "readout_config.json",
+  "budgets": {
+    "max_len": 25600,
+    "question_option_limit": null,
+    "block_size": 2048
+  },
+  "source": {
+    "checkpoint": "EMA weights of the full fine-tune (text-only Qwen3_5ForCausalLM, bf16, 2 safetensors shards)",
+    "checkpoint_sha256": {
+      "model-00001-of-00002.safetensors": "df592f869cb1232226d31491b783bfa9406ffb3c795eae44a3b7452e1044a8fb",
+      "model-00002-of-00002.safetensors": "c6ff77a32a8cf36767e51c1282bb345a873db6509847f6c75baadd8fb17eeb70"
+    },
+    "exports_manifest": {
+      "file": "runs/macjev/release_2b/exports_manifest.json",
+      "sha256": "11c549e479c7022c960c546730d6a3c42957c1c40b1b8901a183a893917d96a5",
+      "note": "sha256 / bytes of the exported GGUF and MLX files (release_2b/build_exports.py)"
+    },
+    "candidate_sha256sums": {
+      "file": "runs/macjev/candidate_2b/hf-candidate/SHA256SUMS.json",
+      "sha256": "7549ed3fe6239b2862998798d8da1457fdced25cd424aa4442557ae852d6e696"
+    }
+  },
+  "calibration": {
+    "version": "macjev-temperature-v2-global",
+    "global_T": 0.8278650620942867,
+    "groups": null,
+    "n_rows": 2000,
+    "fit_quality": {
+      "nll_before": 0.3002617012172898,
+      "nll_after": 0.2900580002426921,
+      "n": 2000
+    },
+    "fitted_on": "2,000 independent calibration rows (not dev, not test rows)"
+  },
+  "related_repos": {
+    "main": "chaoliangUNSW/Jev-Style-2B-Decision-v3",
+    "gguf": "chaoliangUNSW/Jev-Style-2B-Decision-v3-GGUF",
+    "mlx": "chaoliangUNSW/Jev-Style-2B-Decision-v3-MLX"
+  },
+  "tested_with": {
+    "python": "3.12.13",
+    "torch": "2.14.0",
+    "transformers": "5.17.0",
+    "tokenizers": "0.23.2",
+    "numpy": "2.5.3"
+  },
+  "weights": {
+    "model-00001-of-00002.safetensors": "bfloat16 (text-only export of the trained checkpoint, shard 1 of 2)",
+    "model-00002-of-00002.safetensors": "bfloat16 (text-only export of the trained checkpoint, shard 2 of 2)"
+  },
+  "runtime": {
+    "script": "jev_style_decision.py",
+    "class": "JevStyleDecision",
+    "default_dtype": "float32",
+    "dtypes": {
+      "float32": "cuda, mps, cpu (the parity-tested setting)",
+      "bfloat16": "cuda only"
+    },
+    "devices": [
+      "cuda",
+      "mps",
+      "cpu"
+    ],
+    "attention": "transformers AttentionInterface 'jev_style_block_sdpa': the input is fed one renderer block per forward call on top of a cache holding every earlier token; the full-attention layers run unmasked SDPA over cache + block (exactly block-causal); any other call is refused",
+    "gated_deltanet": "transformers Qwen3.5 layers (flash-linear-attention kernels when installed, otherwise the transformers torch fallback), conv / recurrent state continued from the cache",
+    "score_many": "state blocks computed once per call, each question continues from its own copy of the state cache; the last state is kept for the next call (exact match only)",
+    "mps_attn_chunk": 1024,
+    "temperature": "readout_config.json temperatures.global unless overridden",
+    "compat": {
+      "category": "accepted (keyword) and ignored: one global temperature",
+      "renderer.head_max": "= max_len (25,600): no separate question/options cap"
+    },
+    "not_supported": {
+      "--category": "no category/group temperatures (one global T)",
+      "--head-max": "no question/options cap (25,600-token total budget only)"
+    }
+  },
+  "format_gates": {
+    "predeclared": {
+      "file": "runs/macjev/runtime_v2_dev/PREDECLARED_RELEASE_GATES_2B.md",
+      "sha256": "783aec77300779582911cdc57c71cf8b101b0cd5ca040073f7e1fa3ac20af08e",
+      "gates": "F16/bf16 top-1 >= 0.99; 8-bit top-1 >= 0.98; |dNLL| <= 0.02; accuracy drop Q8_0 / MLX-8bit <= 0.3 pp, Q4_K_M <= 1.0 pp (4-bit top-1 / NLL report-only); no non-finite scores"
+    },
+    "reference": {
+      "what": "HF transformers FP32 on CPU, exact v2 block attention, released bf16 checkpoint (runs/macjev/candidate_2b/hf-candidate)",
+      "temperature": 0.8278650620942867
+    },
+    "fixtures": {
+      "gate": {
+        "what": "1,000 real dev rows (<= 4,096 tokens); decides the release gates",
+        "file": "runs/macjev/runtime_v2_dev/reference/gate_fixture_n1000.jsonl",
+        "sha256": "1c03b8c570b988b0c83ca1f79e7fd37e6196239a0836f348300c3f23ae667b68"
+      },
+      "long": {
+        "what": "35 requests / 43 questions up to 25,600 tokens incl. catalogue overflow and K <= 151; accuracy gate unresolvable on 43 questions (verdict INCONCLUSIVE means only that), top-1 / dNLL reported",
+        "file": "runs/macjev/runtime_v2_dev/reference_base/fixture.jsonl",
+        "sha256": "2b16d25eafa70c00a1106ba51b94890821b51ecb4fa393abb12403c8739ef314"
+      }
+    },
+    "cross_format_dp": {
+      "file": "runs/macjev/release_2b/parity/cross_format_dp.json",
+      "sha256": "c7332df0f02244416b01e49ecb037c76d4bf2643a2b42505ff1dfe896879e533"
+    },
+    "formats": {
+      "gguf-f16": {
+        "gate_fixture": {
+          "n": 1000,
+          "top1_agreement": 1.0,
+          "top1_flips": 0,
+          "max_abs_dscore": 0.005850315093994141,
+          "mean_abs_dscore": 0.0006183286580890569,
+          "dnll": 2.447897923035791e-05,
+          "nll_ref": 0.4436679457518203,
+          "nll_cand": 0.44369242473105064,
+          "acc_ref": 0.808,
+          "acc_cand": 0.808,
+          "acc_drop_pp": 0.0,
+          "max_abs_dp": 0.0013728371250730786,
+          "mean_max_abs_dp": 0.00012138780447113503,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.99,
+              "value": 1.0,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": 2.447897923035791e-05,
+              "pass": true
+            }
+          },
+          "verdict": "PASS",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_gguf_f16_gate_vs_block.json",
+            "sha256": "d2db48b883161cca7d9c80d51a85b3c229a3bcfb7c00086887af697aeadd4c5f"
+          }
+        },
+        "long_fixture": {
+          "n": 43,
+          "top1_agreement": 1.0,
+          "top1_flips": 0,
+          "max_abs_dscore": 0.004771709442138672,
+          "mean_abs_dscore": 0.000623485138032805,
+          "dnll": -0.00013262687499793202,
+          "nll_ref": 0.670433307194272,
+          "nll_cand": 0.670300680319274,
+          "acc_ref": 0.7209302325581395,
+          "acc_cand": 0.7209302325581395,
+          "acc_drop_pp": 0.0,
+          "max_abs_dp": 0.0006297677378335198,
+          "mean_max_abs_dp": 0.00017737997866918594,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.99,
+              "value": 1.0,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": -0.00013262687499793202,
+              "pass": true
+            }
+          },
+          "verdict": "PASS",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_gguf_f16_base_vs_block.json",
+            "sha256": "079decac551d90c59d056de5468e038209db86d240e4b31623943cae0690e2cf"
+          }
+        },
+        "release_verdict": "PASS"
+      },
+      "gguf-q8_0": {
+        "gate_fixture": {
+          "n": 1000,
+          "top1_agreement": 0.997,
+          "top1_flips": 3,
+          "max_abs_dscore": 0.10028290748596191,
+          "mean_abs_dscore": 0.017663478106852353,
+          "dnll": -0.0005833314057068772,
+          "nll_ref": 0.4436679457518203,
+          "nll_cand": 0.4430846143461134,
+          "acc_ref": 0.808,
+          "acc_cand": 0.807,
+          "acc_drop_pp": 0.10000000000000009,
+          "max_abs_dp": 0.033479594816581415,
+          "mean_max_abs_dp": 0.0020247272188215755,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.98,
+              "value": 0.997,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": -0.0005833314057068772,
+              "pass": true
+            },
+            "acc_drop_pp": {
+              "threshold": 0.3,
+              "value": 0.10000000000000009,
+              "resolution_pp": 0.1,
+              "pass": true,
+              "note": null
+            }
+          },
+          "verdict": "PASS",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_gguf_q8_0_gate_vs_block.json",
+            "sha256": "4cd6c6f9e2e340ff327cb68bc289941801c85d5216508b2318ade2b588c18a37"
+          }
+        },
+        "long_fixture": {
+          "n": 43,
+          "top1_agreement": 1.0,
+          "top1_flips": 0,
+          "max_abs_dscore": 0.12648522853851318,
+          "mean_abs_dscore": 0.01955361688020088,
+          "dnll": 0.002535229353331059,
+          "nll_ref": 0.670433307194272,
+          "nll_cand": 0.672968536547603,
+          "acc_ref": 0.7209302325581395,
+          "acc_cand": 0.7209302325581395,
+          "acc_drop_pp": 0.0,
+          "max_abs_dp": 0.021289327356281362,
+          "mean_max_abs_dp": 0.0044768677260933745,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.98,
+              "value": 1.0,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": 0.002535229353331059,
+              "pass": true
+            },
+            "acc_drop_pp": {
+              "threshold": 0.3,
+              "value": 0.0,
+              "resolution_pp": 2.3255813953488373,
+              "pass": null,
+              "note": "UNRESOLVED: 43 gold questions -> one flip = 2.33pp > 0.3pp; this fixture cannot resolve the gate (use the gate fixture with >= 334 rows; statistical power needs far more)"
+            }
+          },
+          "verdict": "INCONCLUSIVE",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_gguf_q8_0_base_vs_block.json",
+            "sha256": "79c5564ff7f85af5976082ad003e7a84f96f020abe75c127dc9f31649bd168b8"
+          }
+        },
+        "release_verdict": "PASS"
+      },
+      "gguf-q4_k_m": {
+        "gate_fixture": {
+          "n": 1000,
+          "top1_agreement": 0.957,
+          "top1_flips": 43,
+          "max_abs_dscore": 1.5673165321350098,
+          "mean_abs_dscore": 0.1311025019278954,
+          "dnll": 0.007028574074388894,
+          "nll_ref": 0.4436679457518203,
+          "nll_cand": 0.4506965198262092,
+          "acc_ref": 0.808,
+          "acc_cand": 0.811,
+          "acc_drop_pp": -0.30000000000000027,
+          "max_abs_dp": 0.34599917206983777,
+          "mean_max_abs_dp": 0.02317308476687987,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": null,
+              "value": 0.957,
+              "pass": null,
+              "note": "report only"
+            },
+            "dnll": {
+              "threshold": null,
+              "value": 0.007028574074388894,
+              "pass": null,
+              "note": "report only for 4-bit (as in the pre-registered G5)"
+            },
+            "acc_drop_pp": {
+              "threshold": 1.0,
+              "value": -0.30000000000000027,
+              "resolution_pp": 0.1,
+              "pass": true,
+              "note": null
+            }
+          },
+          "verdict": "PASS",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_gguf_q4_k_m_gate_vs_block.json",
+            "sha256": "fa6f4bbde3f8dc97c144d94ee604c6ea0386558ac4d03ee803de9650e815c275"
+          }
+        },
+        "long_fixture": {
+          "n": 43,
+          "top1_agreement": 0.9767441860465116,
+          "top1_flips": 1,
+          "max_abs_dscore": 1.6832613945007324,
+          "mean_abs_dscore": 0.15424594652319,
+          "dnll": 0.11204286860779777,
+          "nll_ref": 0.670433307194272,
+          "nll_cand": 0.7824761758020697,
+          "acc_ref": 0.7209302325581395,
+          "acc_cand": 0.6976744186046512,
+          "acc_drop_pp": 2.3255813953488302,
+          "max_abs_dp": 0.15778925110927658,
+          "mean_max_abs_dp": 0.047022506153486646,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": null,
+              "value": 0.9767441860465116,
+              "pass": null,
+              "note": "report only"
+            },
+            "dnll": {
+              "threshold": null,
+              "value": 0.11204286860779777,
+              "pass": null,
+              "note": "report only for 4-bit (as in the pre-registered G5)"
+            },
+            "acc_drop_pp": {
+              "threshold": 1.0,
+              "value": 2.3255813953488302,
+              "resolution_pp": 2.3255813953488373,
+              "pass": null,
+              "note": "UNRESOLVED: 43 gold questions -> one flip = 2.33pp > 1.0pp; this fixture cannot resolve the gate (use the gate fixture with >= 100 rows; statistical power needs far more)"
+            }
+          },
+          "verdict": "INCONCLUSIVE",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_gguf_q4_k_m_base_vs_block.json",
+            "sha256": "cca6700d953c15c45ef55b443d963d6d955263a2858bf713d9ba73762d78b182"
+          }
+        },
+        "release_verdict": "PASS",
+        "note": "4-bit: top-1 / dNLL are report-only by pre-declaration; accuracy-drop gate <= 1.0 pp"
+      },
+      "mlx-bf16": {
+        "gate_fixture": {
+          "n": 1000,
+          "top1_agreement": 0.997,
+          "top1_flips": 3,
+          "max_abs_dscore": 0.13961565494537354,
+          "mean_abs_dscore": 0.012822698334419146,
+          "dnll": 0.0001265220422789204,
+          "nll_ref": 0.4436679457518203,
+          "nll_cand": 0.4437944677940992,
+          "acc_ref": 0.808,
+          "acc_cand": 0.805,
+          "acc_drop_pp": 0.30000000000000027,
+          "max_abs_dp": 0.03549758339084519,
+          "mean_max_abs_dp": 0.0025865935031305484,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.99,
+              "value": 0.997,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": 0.0001265220422789204,
+              "pass": true
+            }
+          },
+          "verdict": "PASS",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_mlx_bf16_gate_vs_block.json",
+            "sha256": "7fa30fa414a4ffc12a7aa6371e77579845c3b816b90da3a813a70fec10ccd9fb"
+          }
+        },
+        "long_fixture": {
+          "n": 43,
+          "top1_agreement": 1.0,
+          "top1_flips": 0,
+          "max_abs_dscore": 0.08836114406585693,
+          "mean_abs_dscore": 0.01365492056503762,
+          "dnll": -0.0026943261000204055,
+          "nll_ref": 0.670433307194272,
+          "nll_cand": 0.6677389810942516,
+          "acc_ref": 0.7209302325581395,
+          "acc_cand": 0.7209302325581395,
+          "acc_drop_pp": 0.0,
+          "max_abs_dp": 0.010765431767972844,
+          "mean_max_abs_dp": 0.003890125022245109,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.99,
+              "value": 1.0,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": -0.0026943261000204055,
+              "pass": true
+            }
+          },
+          "verdict": "PASS",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_mlx_bf16_base_vs_block.json",
+            "sha256": "ca16e5281debaf1bc601b4a8c93cf6c1106f7b032f35c5833baa4fc8178def7c"
+          }
+        },
+        "release_verdict": "PASS"
+      },
+      "mlx-8bit": {
+        "gate_fixture": {
+          "n": 1000,
+          "top1_agreement": 0.996,
+          "top1_flips": 4,
+          "max_abs_dscore": 0.3184394836425781,
+          "mean_abs_dscore": 0.016680597170951345,
+          "dnll": 0.0005035682350758575,
+          "nll_ref": 0.4436679457518203,
+          "nll_cand": 0.44417151398689614,
+          "acc_ref": 0.808,
+          "acc_cand": 0.808,
+          "acc_drop_pp": 0.0,
+          "max_abs_dp": 0.1623697296878569,
+          "mean_max_abs_dp": 0.0039011049015487734,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.98,
+              "value": 0.996,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": 0.0005035682350758575,
+              "pass": true
+            },
+            "acc_drop_pp": {
+              "threshold": 0.3,
+              "value": 0.0,
+              "resolution_pp": 0.1,
+              "pass": true,
+              "note": null
+            }
+          },
+          "verdict": "PASS",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_mlx_affine8-g64_gate_vs_block.json",
+            "sha256": "f0e2f44498df00945901c2a9bd5bff6f742d11ab243495c8089eaf0448fda782"
+          }
+        },
+        "long_fixture": {
+          "n": 43,
+          "top1_agreement": 1.0,
+          "top1_flips": 0,
+          "max_abs_dscore": 0.4653351306915283,
+          "mean_abs_dscore": 0.023077200647273945,
+          "dnll": 0.01638063705636561,
+          "nll_ref": 0.670433307194272,
+          "nll_cand": 0.6868139442506376,
+          "acc_ref": 0.7209302325581395,
+          "acc_cand": 0.7209302325581395,
+          "acc_drop_pp": 0.0,
+          "max_abs_dp": 0.04628699142360499,
+          "mean_max_abs_dp": 0.007026009064181663,
+          "gates": {
+            "coverage_finite_tokens": {
+              "pass": true,
+              "problems": {},
+              "reference_missing_requests": 0
+            },
+            "top1": {
+              "threshold": 0.98,
+              "value": 1.0,
+              "pass": true
+            },
+            "dnll": {
+              "threshold": 0.02,
+              "value": 0.01638063705636561,
+              "pass": true
+            },
+            "acc_drop_pp": {
+              "threshold": 0.3,
+              "value": 0.0,
+              "resolution_pp": 2.3255813953488373,
+              "pass": null,
+              "note": "UNRESOLVED: 43 gold questions -> one flip = 2.33pp > 0.3pp; this fixture cannot resolve the gate (use the gate fixture with >= 334 rows; statistical power needs far more)"
+            }
+          },
+          "verdict": "INCONCLUSIVE",
+          "note": "small fixtures cannot resolve 0.3pp accuracy gates; accuracy on a parity fixture is only indicative (synthetic long rows carry the base row's gold label).",
+          "source": {
+            "file": "runs/macjev/release_2b/parity/compare_mlx_affine8-g64_base_vs_block.json",
+            "sha256": "e1911f21ce73dd42d6c57e8349e2ec3221386a2b44ca461a3e50b9a69057ec34"
+          }
+        },
+        "release_verdict": "PASS"
+      }
+    },
+    "torch_runtime_vs_reference_long_fixture": {
+      "n": 43,
+      "top1_agree": 1.0,
+      "max_abs_dp": 4.782633115096857e-06,
+      "mean_max_abs_dp": 6.972375795818997e-07
+    }
+  },
+  "decision_index": "requested from the maintainer after release (not run by us)",
+  "runtime_parity": {
+    "protocol": "the staged runtime scores the long fixture (35 requests / 43 questions, up to 25,600 tokens) from text/ids through its own renderer; raw scores compared with the HF FP32 CPU reference (runs/macjev/runtime_v2_dev/reference_trained/ref_block_fp32.jsonl)",
+    "fixture": {
+      "file": "runs/macjev/runtime_v2_dev/reference_base/fixture.jsonl",
+      "sha256": "2b16d25eafa70c00a1106ba51b94890821b51ecb4fa393abb12403c8739ef314"
+    },
+    "cpu_fp32_threads4": {
+      "requests": 35,
+      "questions": 43,
+      "max_abs_dscore": 1.502e-05,
+      "top1_flips": 0,
+      "meta_ok_all": true,
+      "per_category": {
+        "catalogue_overflow": {
+          "n": 3,
+          "max_abs_dscore": 1.502e-05,
+          "top1_flips": 0
+        },
+        "catalogue_overflow_long_state": {
+          "n": 1,
+          "max_abs_dscore": 6.437e-06,
+          "top1_flips": 0
+        },
+        "long_16k": {
+          "n": 3,
+          "max_abs_dscore": 6.676e-06,
+          "top1_flips": 0
+        },
+        "long_24k": {
+          "n": 2,
+          "max_abs_dscore": 4.053e-06,
+          "top1_flips": 0
+        },
+        "many_options": {
+          "n": 2,
+          "max_abs_dscore": 5.96e-06,
+          "top1_flips": 0
+        },
+        "multi_block_3k": {
+          "n": 2,
+          "max_abs_dscore": 1.132e-05,
+          "top1_flips": 0
+        },
+        "multi_block_5k": {
+          "n": 2,
+          "max_abs_dscore": 5.364e-06,
+          "top1_flips": 0
+        },
+        "multi_block_9k": {
+          "n": 2,
+          "max_abs_dscore": 2.384e-06,
+          "top1_flips": 0
+        },
+        "multi_question": {
+          "n": 10,
+          "max_abs_dscore": 7.391e-06,
+          "top1_flips": 0
+        },
+        "prefix_boundary": {
+          "n": 7,
+          "max_abs_dscore": 9.179e-06,
+          "top1_flips": 0
+        },
+        "qtype_choice": {
+          "n": 1,
+          "max_abs_dscore": 5.841e-06,
+          "top1_flips": 0
+        },
+        "qtype_noul": {
+          "n": 1,
+          "max_abs_dscore": 1.609e-06,
+          "top1_flips": 0
+        },
+        "qtype_score": {
+          "n": 1,
+          "max_abs_dscore": 3.934e-06,
+          "top1_flips": 0
+        },
+        "short_sb": {
+          "n": 6,
+          "max_abs_dscore": 6.02e-06,
+          "top1_flips": 0
+        }
+      },
+      "source": {
+        "file": "runs/macjev/runtime_v2_dev/verify_release_torch/parity_cpu_fp32_t4.log",
+        "sha256": "616618ec2b61c472137ea4cb418dc0b79019b699e7fa6f044bf06c166cb970ba"
+      }
+    },
+    "mps_fp32_long_16k_24k": {
+      "requests": 2,
+      "questions": 2,
+      "max_abs_dscore": 8.821e-06,
+      "top1_flips": 0,
+      "meta_ok_all": true,
+      "per_category": {
+        "long_16k": {
+          "n": 1,
+          "max_abs_dscore": 2.742e-06,
+          "top1_flips": 0
+        },
+        "long_24k": {
+          "n": 1,
+          "max_abs_dscore": 8.821e-06,
+          "top1_flips": 0
+        }
+      },
+      "source": {
+        "file": "runs/macjev/runtime_v2_dev/verify_release_torch/parity_mps_fp32_long.log",
+        "sha256": "04e40ead1c8694fb3bbda9714074701777ea48d8d2cb3489df738ad902f351d8"
+      }
+    },
+    "render_and_tiny_model": {
+      "render": {
+        "question_errors": 2,
+        "qerr_kinds": [
+          "question text ('ins') must be a non-empty string"
+        ],
+        "n_rendered_equal": 406,
+        "catalogue_overflow": 43,
+        "both_rejected": 2,
+        "edges": {
+          "short_2048": 2014,
+          "short_2049": [
+            2015,
+            2074
+          ]
+        },
+        "big_k_blocks": 14,
+        "big_k_tokens": 23102
+      },
+      "tiny": {
+        "cases": 24,
+        "max_abs_d_vs_dev_ref": 2.1457672119140625e-06
+      },
+      "source": {
+        "file": "runs/macjev/runtime_v2_dev/verify_release_torch/v_tiny_and_render.json",
+        "sha256": "d3ff75211cfac2f26f0f7763ee937dee8d1e01eceae43e37f16f9ec5d0bb02bf"
+      }
+    },
+    "jev_style_package_e2e": {
+      "source": {
+        "file": "runs/macjev/runtime_v2_dev/verify_release_torch/v_jevstyle_e2e.json",
+        "sha256": "812cbee4d6c8b0af5cd81b6b5aaa8b24f55c07c0ec934cc81c8f61c634e734a6"
+      },
+      "note": "systemone request through the jev-style package adapter (torch CPU)"
+    },
+    "runtime_file": {
+      "file": "jev_style_decision.py",
+      "sha256_now": "5ecba24cdfff4f0e043c2ea48c9c7f514907c6804f265906e21dec0f1b20dbd6",
+      "mtime_unix": 1790448336.7685351
+    },
+    "original_records_predate_last_runtime_edit": true,
+    "reverified_on_current_runtime": true,
+    "recorded_before_last_runtime_edit": false,
+    "note": "the records above were written before the last edit of the runtime file; the runtime as staged now (sha256 runtime_file.sha256_now) was re-verified on the long fixture, see 'reverified' (reverified.runtime_sha256 == runtime_file.sha256_now).",
+    "reverified": {
+      "runtime_file": "jev_style_decision.py",
+      "runtime_sha256": "5ecba24cdfff4f0e043c2ea48c9c7f514907c6804f265906e21dec0f1b20dbd6",
+      "shared_core_sha256": "56deae095206fc59b9a30d8626ac5d27cacddcd94d7c7f08f6f4bc53d326a002",
+      "what": "PyTorch FP32 CPU, requests with <= 6000 tokens per question",
+      "loaded_from": "runs/macjev/hf_staging/Jev-Style-2B-Decision-v3",
+      "verify_manifest": true,
+      "compared_with": {
+        "file": "runs/macjev/runtime_v2_dev/reference_trained/ref_block_fp32.jsonl",
+        "sha256": "09ff7d4fdd97c52c28429139a4f8d53dd224a5e0bcc69b1a318978abad5e136c"
+      },
+      "fixture": {
+        "file": "runs/macjev/runtime_v2_dev/reference_base/fixture.jsonl",
+        "sha256": "2b16d25eafa70c00a1106ba51b94890821b51ecb4fa393abb12403c8739ef314"
+      },
+      "questions": 34,
+      "skipped_questions": 9,
+      "max_abs_score_diff": 1.5020370483398438e-05,
+      "top1_same": "34/34",
+      "token_or_overflow_mismatches": [],
+      "seconds": 411.6,
+      "finished_unix": 1790449904.6816142,
+      "source": {
+        "file": "runs/macjev/hf_staging/_2b_tools/reverify_main.json",
+        "sha256": "3b8e573deb626385ce469b289e8e753d60c499ce21efcdeefd20a8e44b4d6c0a"
+      }
+    },
+    "reverified_mps_fp32_long_16k_24k": {
+      "what": "the staged jev_style_decision.py on MPS float32, fixture requests long_16k-1 and long_24k-1, raw scores vs the HF FP32 CPU reference (runtime_v2_dev/verify_release_torch/vparity.py, run on this folder)",
+      "runtime_sha256": "5ecba24cdfff4f0e043c2ea48c9c7f514907c6804f265906e21dec0f1b20dbd6",
+      "runtime_edited_after_this_record": false,
+      "requests": 2,
+      "questions": 2,
+      "max_abs_dscore": 8.821e-06,
+      "top1_flips": 0,
+      "meta_ok_all": true,
+      "per_category": {
+        "long_16k": {
+          "n": 1,
+          "max_abs_dscore": 2.742e-06,
+          "top1_flips": 0
+        },
+        "long_24k": {
+          "n": 1,
+          "max_abs_dscore": 8.821e-06,
+          "top1_flips": 0
+        }
+      },
+      "source": {
+        "file": "runs/macjev/hf_staging/_2b_tools/reverify_main_mps_long.log",
+        "sha256": "98720ecc5f12d24f7a12add39a7cf332f12c300c8177eed2665a3077d0e0f0b1"
+      }
+    }
+  },
+  "latency": {
+    "file": "validation/latency_2b.json",
+    "sha256": "458d00e0c81b3165072b8547278e6039b9ae0d45d54b7421008ef24c1d24ca3d",
+    "machine": {
+      "chip": "Apple M1 Max",
+      "memory_bytes": 68719476736,
+      "macos": "15.7.5",
+      "python": "3.12.13"
+    },
+    "backends_shown_on_card": [
+      "gguf-f16",
+      "mlx-bf16",
+      "torch-mps-fp32"
+    ],
+    "rows": 18,
+    "rows_in_file": 36,
+    "card_generator": "runs/macjev/release_2b/cards/_build/latency_tables.py"
+  }
+}

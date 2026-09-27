@@ -1,0 +1,32 @@
+chaoliangUNSW/Jev-Style-2B-Decision-v3
+Copyright 2026 chaoliangUNSW. Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This model is a fine-tuned derivative of Qwen3.5-2B (https://huggingface.co/Qwen/Qwen3.5-2B,
+revision 15852e8c16360a2fea060d615a32b45270f8a8fc), Copyright 2026 Alibaba Cloud, licensed under the Apache
+License, Version 2.0. The LICENSE file in this repository is the license file distributed with Qwen3.5-2B.
+
+Modifications relative to Qwen3.5-2B:
+- all text-model weights were fine-tuned (full fine-tuning, bf16 training; the EMA weights were selected) to
+  score typed decision questions (choice / score / true-false) with a verdict readout: logit(" yes") -
+  logit(" no") at one " ->" slot per option, using the v2 input protocol (render v2 with long-option
+  catalogues; block-causal attention in the full-attention layers over 2,048-token blocks); one global
+  calibration temperature was fitted afterwards (readout_config.json);
+- the vision tower and the multi-token-prediction head were removed; the checkpoint is a text-only
+  Qwen3_5ForCausalLM with tied input/output embeddings;
+- added the runtime script, readout/release configuration files, the integrity manifest and this NOTICE.
+
+The question types (choice / score / noul) follow the typed-decision convention of Laya
+(https://github.com/NandhaKishorM/laya, Apache-2.0) so both models can be evaluated on the same
+inputs. No Laya code or weights are included.
+
+Part of the third generation (v3) of the Jev-Style decision series. Earlier generations: v1 =
+chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision (public GGUF release:
+chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-GGUF) and v2 = chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-v2
+(both built on Qwen3.5-2B-Base); the v3 series also contains chaoliangUNSW/Jev-Style-0.8B-Decision-v3 (fine-tuned from
+Qwen3.5-0.8B, v1 input protocol). This model was fine-tuned from Qwen/Qwen3.5-2B; no weights of the earlier
+models were used. Its input protocol (render v2 + block attention) differs from the 0.8B v3 models: use the
+runtime of this repository (jev_style_decision.py).
+
+Not affiliated with, endorsed by or connected to TypeSafe or Jev. "Jev-Style" only describes the kind
+of model (a small typed-decision model in a similar style); no Jev weights, code or outputs are included.
+Not affiliated with or endorsed by Alibaba Cloud / the Qwen team or the Laya authors.

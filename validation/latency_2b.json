@@ -1,0 +1,1568 @@
+{
+  "format": "jev-style-latency-v1",
+  "model": "Jev-Style-2B-Decision-v3",
+  "machine": {
+    "chip": "Apple M1 Max",
+    "memory_bytes": 68719476736,
+    "macos": "15.7.5",
+    "python": "3.12.13"
+  },
+  "shared_machine_note": "measured while other agents' jobs ran on the same Mac (among them a CPU-heavy PyTorch parity job using ~3.5 cores and ~16 GB); load averages at the end of each run are recorded per row. Treat the numbers as indicative, not as a clean benchmark.",
+  "protocol": {
+    "runtimes": "the staged runtimes of the three repos (jev_style_decision_gguf.py + jev-score-v2 built with build_jev_score.sh against llama.cpp 441df11f, Metal, all layers on the GPU; jev_style_decision_mlx.py, mlx 0.32.2 / mlx-lm 0.31.3; jev_style_decision.py on MPS, float32)",
+    "weights": "trained release weights: release_2b/gguf/model-*.gguf (tensor data identical to the named repo files), release_2b/mlx/{bf16,affine8-g64}, candidate_2b/hf-candidate (torch)",
+    "state": "plain text (repository documentation + source code, English) cut to target-150 tokens; the total input per question is recorded in input_tokens_per_question",
+    "questions": "n_questions=1: one 4-option choice question (decide); n_questions=10: 10 mixed questions (4 choice, 4 true/false, 2 score) about the same state in one score_many call",
+    "one_process_per_row": true,
+    "cold_s": "first scoring call after loading (state + questions; includes GPU warm-up)",
+    "warm_median_s": "median of 3 further calls, cached state dropped before each (state recomputed)",
+    "state_cached_median_s": "median of 3 calls with the state already computed (only the question blocks run)",
+    "load_s": "runtime construction (weights from the OS file cache in most rows)",
+    "wall_time": "time.perf_counter around decide()/score_many(), incl. tokenisation and rendering",
+    "peak_rss_bytes": "ru_maxrss of the Python process (and of the jev-score-v2 child for GGUF); includes memory-mapped weight pages",
+    "peak_phys_footprint_bytes": "macOS lifetime-max physical footprint (proc_pid_rusage v4): memory the process owns, incl. Metal / MLX buffers it allocates. It does NOT count clean memory-mapped file pages, so for GGUF (jev-score-v2 maps the .gguf file) it excludes the weights and is not a memory requirement; use peak_rss_bytes.jev_score_v2 (which includes the mapped weight pages) as the upper bound for GGUF"
+  },
+  "reruns": {
+    "gguf_and_mlx_rows": "all 18 GGUF rows and all 12 MLX rows were re-measured on 2026-09-27 03:11-03:28 (fix round, same script, same state text, same answers) because an independent re-run of the first session's GGUF Q8_0 / Q4_K_M 10-question rows was ~2.4x faster (contention during the first session). The first-session rows are kept in latency/runs_superseded_2026-09-27/ and are not used here. The 6 torch MPS rows are from the first session (not re-measured).",
+    "superseded_dir": "latency/runs_superseded_2026-09-27/"
+  },
+  "complete": true,
+  "missing_runs": [],
+  "rows": [
+    {
+      "backend": "gguf-f16",
+      "n_questions": 1,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943
+      ],
+      "load_s": 2.6054,
+      "cold_s": 0.5624,
+      "warm_median_s": 0.5242,
+      "warm_s": [
+        0.5203,
+        0.5345,
+        0.5242
+      ],
+      "state_cached_median_s": 0.0653,
+      "peak_rss_bytes": {
+        "python": 352616448,
+        "jev_score_v2": 4451008512
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 252413696,
+        "jev_score_v2": 660384576
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        9.59,
+        9.9,
+        10.98
+      ],
+      "measured_unix": 1790442718.8146281,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-f16.gguf"
+      },
+      "raw": "latency/runs/gguf-f16_1024_1q.json"
+    },
+    {
+      "backend": "gguf-f16",
+      "n_questions": 10,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943,
+        918,
+        925,
+        911,
+        918,
+        921,
+        943,
+        917,
+        912,
+        919
+      ],
+      "load_s": 1.1941,
+      "cold_s": 0.994,
+      "warm_median_s": 0.968,
+      "warm_s": [
+        0.968,
+        0.9464,
+        0.9713
+      ],
+      "state_cached_median_s": 0.4965,
+      "peak_rss_bytes": {
+        "python": 328564736,
+        "jev_score_v2": 4516610048
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 254527296,
+        "jev_score_v2": 676899648
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        10.0,
+        9.97,
+        10.99
+      ],
+      "measured_unix": 1790442726.19508,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-f16.gguf"
+      },
+      "raw": "latency/runs/gguf-f16_1024_10q.json"
+    },
+    {
+      "backend": "gguf-f16",
+      "n_questions": 1,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015
+      ],
+      "load_s": 1.1659,
+      "cold_s": 2.2122,
+      "warm_median_s": 2.1753,
+      "warm_s": [
+        2.1909,
+        2.1753,
+        2.1733
+      ],
+      "state_cached_median_s": 0.078,
+      "peak_rss_bytes": {
+        "python": 354697216,
+        "jev_score_v2": 4568334336
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 257705600,
+        "jev_score_v2": 722676736
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        9.01,
+        9.76,
+        10.9
+      ],
+      "measured_unix": 1790442737.183161,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-f16.gguf"
+      },
+      "raw": "latency/runs/gguf-f16_4096_1q.json"
+    },
+    {
+      "backend": "gguf-f16",
+      "n_questions": 10,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015,
+        3990,
+        3997,
+        3983,
+        3990,
+        3993,
+        4015,
+        3989,
+        3984,
+        3991
+      ],
+      "load_s": 1.2112,
+      "cold_s": 2.6904,
+      "warm_median_s": 2.6583,
+      "warm_s": [
+        2.6583,
+        2.6665,
+        2.6378
+      ],
+      "state_cached_median_s": 0.5467,
+      "peak_rss_bytes": {
+        "python": 331694080,
+        "jev_score_v2": 4564172800
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 248334016,
+        "jev_score_v2": 720382976
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.62,
+        9.62,
+        10.83
+      ],
+      "measured_unix": 1790442751.5065348,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-f16.gguf"
+      },
+      "raw": "latency/runs/gguf-f16_4096_10q.json"
+    },
+    {
+      "backend": "gguf-f16",
+      "n_questions": 1,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501
+      ],
+      "load_s": 1.1784,
+      "cold_s": 16.2299,
+      "warm_median_s": 16.1651,
+      "warm_s": [
+        16.1645,
+        16.1651,
+        16.2375
+      ],
+      "state_cached_median_s": 0.1677,
+      "peak_rss_bytes": {
+        "python": 349683712,
+        "jev_score_v2": 4734812160
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 239191744,
+        "jev_score_v2": 882732352
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        9.74,
+        9.66,
+        10.75
+      ],
+      "measured_unix": 1790442818.798799,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-f16.gguf"
+      },
+      "raw": "latency/runs/gguf-f16_24576_1q.json"
+    },
+    {
+      "backend": "gguf-f16",
+      "n_questions": 10,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501,
+        24476,
+        24483,
+        24469,
+        24476,
+        24479,
+        24501,
+        24475,
+        24470,
+        24477
+      ],
+      "load_s": 1.225,
+      "cold_s": 16.9884,
+      "warm_median_s": 16.8115,
+      "warm_s": [
+        16.8115,
+        16.675,
+        16.8156
+      ],
+      "state_cached_median_s": 0.8643,
+      "peak_rss_bytes": {
+        "python": 367919104,
+        "jev_score_v2": 4738170880
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 242992832,
+        "jev_score_v2": 887975168
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.02,
+        9.14,
+        10.46
+      ],
+      "measured_unix": 1790442890.769493,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-f16.gguf"
+      },
+      "raw": "latency/runs/gguf-f16_24576_10q.json"
+    },
+    {
+      "backend": "gguf-q8_0",
+      "n_questions": 1,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943
+      ],
+      "load_s": 1.7934,
+      "cold_s": 0.6136,
+      "warm_median_s": 0.5663,
+      "warm_s": [
+        0.5678,
+        0.5663,
+        0.5663
+      ],
+      "state_cached_median_s": 0.0682,
+      "peak_rss_bytes": {
+        "python": 328974336,
+        "jev_score_v2": 2721579008
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 248874624,
+        "jev_score_v2": 668163520
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        7.69,
+        9.05,
+        10.42
+      ],
+      "measured_unix": 1790442895.894016,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q8_0.gguf"
+      },
+      "raw": "latency/runs/gguf-q8_0_1024_1q.json"
+    },
+    {
+      "backend": "gguf-q8_0",
+      "n_questions": 10,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943,
+        918,
+        925,
+        911,
+        918,
+        921,
+        943,
+        917,
+        912,
+        919
+      ],
+      "load_s": 1.0682,
+      "cold_s": 1.073,
+      "warm_median_s": 1.0243,
+      "warm_s": [
+        1.0244,
+        1.0243,
+        1.0231
+      ],
+      "state_cached_median_s": 0.5268,
+      "peak_rss_bytes": {
+        "python": 347635712,
+        "jev_score_v2": 2757804032
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 258377344,
+        "jev_score_v2": 674569792
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        7.24,
+        8.94,
+        10.37
+      ],
+      "measured_unix": 1790442903.5177228,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q8_0.gguf"
+      },
+      "raw": "latency/runs/gguf-q8_0_1024_10q.json"
+    },
+    {
+      "backend": "gguf-q8_0",
+      "n_questions": 1,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015
+      ],
+      "load_s": 1.0689,
+      "cold_s": 2.3987,
+      "warm_median_s": 2.3345,
+      "warm_s": [
+        2.3333,
+        2.3488,
+        2.3345
+      ],
+      "state_cached_median_s": 0.082,
+      "peak_rss_bytes": {
+        "python": 354189312,
+        "jev_score_v2": 2807808000
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 247596736,
+        "jev_score_v2": 719183680
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        6.58,
+        8.74,
+        10.28
+      ],
+      "measured_unix": 1790442915.085064,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q8_0.gguf"
+      },
+      "raw": "latency/runs/gguf-q8_0_4096_1q.json"
+    },
+    {
+      "backend": "gguf-q8_0",
+      "n_questions": 10,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015,
+        3990,
+        3997,
+        3983,
+        3990,
+        3993,
+        4015,
+        3989,
+        3984,
+        3991
+      ],
+      "load_s": 1.0684,
+      "cold_s": 2.8854,
+      "warm_median_s": 2.8178,
+      "warm_s": [
+        2.8178,
+        2.8439,
+        2.816
+      ],
+      "state_cached_median_s": 0.5719,
+      "peak_rss_bytes": {
+        "python": 319045632,
+        "jev_score_v2": 2799091712
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 243910336,
+        "jev_score_v2": 716169152
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        7.36,
+        8.8,
+        10.28
+      ],
+      "measured_unix": 1790442930.063521,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q8_0.gguf"
+      },
+      "raw": "latency/runs/gguf-q8_0_4096_10q.json"
+    },
+    {
+      "backend": "gguf-q8_0",
+      "n_questions": 1,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501
+      ],
+      "load_s": 1.0589,
+      "cold_s": 17.0922,
+      "warm_median_s": 17.0489,
+      "warm_s": [
+        17.0489,
+        17.0376,
+        17.0539
+      ],
+      "state_cached_median_s": 0.1679,
+      "peak_rss_bytes": {
+        "python": 364937216,
+        "jev_score_v2": 2966470656
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 267110080,
+        "jev_score_v2": 875831168
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        6.7,
+        8.25,
+        9.94
+      ],
+      "measured_unix": 1790443000.691691,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q8_0.gguf"
+      },
+      "raw": "latency/runs/gguf-q8_0_24576_1q.json"
+    },
+    {
+      "backend": "gguf-q8_0",
+      "n_questions": 10,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501,
+        24476,
+        24483,
+        24469,
+        24476,
+        24479,
+        24501,
+        24475,
+        24470,
+        24477
+      ],
+      "load_s": 1.0501,
+      "cold_s": 17.8244,
+      "warm_median_s": 17.7424,
+      "warm_s": [
+        17.7424,
+        17.7312,
+        17.7793
+      ],
+      "state_cached_median_s": 0.8902,
+      "peak_rss_bytes": {
+        "python": 348651520,
+        "jev_score_v2": 2967109632
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 260425536,
+        "jev_score_v2": 878698496
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        11.28,
+        9.17,
+        10.13
+      ],
+      "measured_unix": 1790443076.341974,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q8_0.gguf"
+      },
+      "raw": "latency/runs/gguf-q8_0_24576_10q.json"
+    },
+    {
+      "backend": "gguf-q4_k_m",
+      "n_questions": 1,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943
+      ],
+      "load_s": 1.4512,
+      "cold_s": 0.6738,
+      "warm_median_s": 0.6391,
+      "warm_s": [
+        0.6418,
+        0.6391,
+        0.6334
+      ],
+      "state_cached_median_s": 0.0782,
+      "peak_rss_bytes": {
+        "python": 334921728,
+        "jev_score_v2": 1988542464
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 245073728,
+        "jev_score_v2": 669308992
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        12.77,
+        9.51,
+        10.25
+      ],
+      "measured_unix": 1790443081.420589,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q4_k_m.gguf"
+      },
+      "raw": "latency/runs/gguf-q4_k_m_1024_1q.json"
+    },
+    {
+      "backend": "gguf-q4_k_m",
+      "n_questions": 10,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943,
+        918,
+        925,
+        911,
+        918,
+        921,
+        943,
+        917,
+        912,
+        919
+      ],
+      "load_s": 0.9937,
+      "cold_s": 1.2045,
+      "warm_median_s": 1.157,
+      "warm_s": [
+        1.1544,
+        1.1643,
+        1.157
+      ],
+      "state_cached_median_s": 0.6009,
+      "peak_rss_bytes": {
+        "python": 352059392,
+        "jev_score_v2": 2018754560
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 256673344,
+        "jev_score_v2": 665065728
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        13.83,
+        9.78,
+        10.34
+      ],
+      "measured_unix": 1790443089.6937559,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q4_k_m.gguf"
+      },
+      "raw": "latency/runs/gguf-q4_k_m_1024_10q.json"
+    },
+    {
+      "backend": "gguf-q4_k_m",
+      "n_questions": 1,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015
+      ],
+      "load_s": 0.9922,
+      "cold_s": 2.6608,
+      "warm_median_s": 2.6006,
+      "warm_s": [
+        2.6006,
+        2.6206,
+        2.5977
+      ],
+      "state_cached_median_s": 0.0908,
+      "peak_rss_bytes": {
+        "python": 327221248,
+        "jev_score_v2": 2062483456
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 259393408,
+        "jev_score_v2": 714692992
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        11.99,
+        9.57,
+        10.25
+      ],
+      "measured_unix": 1790443102.1980171,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q4_k_m.gguf"
+      },
+      "raw": "latency/runs/gguf-q4_k_m_4096_1q.json"
+    },
+    {
+      "backend": "gguf-q4_k_m",
+      "n_questions": 10,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015,
+        3990,
+        3997,
+        3983,
+        3990,
+        3993,
+        4015,
+        3989,
+        3984,
+        3991
+      ],
+      "load_s": 0.9859,
+      "cold_s": 3.2053,
+      "warm_median_s": 3.1651,
+      "warm_s": [
+        3.1651,
+        3.1579,
+        3.1711
+      ],
+      "state_cached_median_s": 0.6462,
+      "peak_rss_bytes": {
+        "python": 326434816,
+        "jev_score_v2": 2073214976
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 245614208,
+        "jev_score_v2": 716806400
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        10.28,
+        9.31,
+        10.15
+      ],
+      "measured_unix": 1790443118.634955,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q4_k_m.gguf"
+      },
+      "raw": "latency/runs/gguf-q4_k_m_4096_10q.json"
+    },
+    {
+      "backend": "gguf-q4_k_m",
+      "n_questions": 1,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501
+      ],
+      "load_s": 1.0041,
+      "cold_s": 18.6914,
+      "warm_median_s": 18.6165,
+      "warm_s": [
+        18.6165,
+        18.6059,
+        18.624
+      ],
+      "state_cached_median_s": 0.1755,
+      "peak_rss_bytes": {
+        "python": 345686016,
+        "jev_score_v2": 2233663488
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 260048576,
+        "jev_score_v2": 880335552
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.43,
+        9.22,
+        10.05
+      ],
+      "measured_unix": 1790443195.534742,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q4_k_m.gguf"
+      },
+      "raw": "latency/runs/gguf-q4_k_m_24576_1q.json"
+    },
+    {
+      "backend": "gguf-q4_k_m",
+      "n_questions": 10,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501,
+        24476,
+        24483,
+        24469,
+        24476,
+        24479,
+        24501,
+        24475,
+        24470,
+        24477
+      ],
+      "load_s": 0.9967,
+      "cold_s": 19.4776,
+      "warm_median_s": 19.4309,
+      "warm_s": [
+        19.4309,
+        19.4251,
+        19.5057
+      ],
+      "state_cached_median_s": 0.9616,
+      "peak_rss_bytes": {
+        "python": 354992128,
+        "jev_score_v2": 2226913280
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 250791552,
+        "jev_score_v2": 870128320
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        5.63,
+        8.19,
+        9.59
+      ],
+      "measured_unix": 1790443278.075001,
+      "settings": {
+        "engine": "jev-score-v2 (staged jev_score_v2.cpp, llama.cpp 441df11f, Metal)",
+        "n_gpu_layers": 999,
+        "flash_attn": "default (llama.cpp auto on Metal)",
+        "gguf": "release_2b/gguf/model-q4_k_m.gguf"
+      },
+      "raw": "latency/runs/gguf-q4_k_m_24576_10q.json"
+    },
+    {
+      "backend": "mlx-bf16",
+      "n_questions": 1,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943
+      ],
+      "load_s": 3.6602,
+      "cold_s": 0.64,
+      "warm_median_s": 0.5658,
+      "warm_s": [
+        0.5615,
+        0.5665,
+        0.5658
+      ],
+      "state_cached_median_s": 0.0796,
+      "peak_rss_bytes": {
+        "python": 4401463296
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 5205486080
+      },
+      "mlx_peak_memory_bytes": 4536436474,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        6.5,
+        8.17,
+        9.53
+      ],
+      "measured_unix": 1790443305.918901,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "bf16",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-bf16_1024_1q.json"
+    },
+    {
+      "backend": "mlx-bf16",
+      "n_questions": 10,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943,
+        918,
+        925,
+        911,
+        918,
+        921,
+        943,
+        917,
+        912,
+        919
+      ],
+      "load_s": 3.3114,
+      "cold_s": 1.1022,
+      "warm_median_s": 1.0651,
+      "warm_s": [
+        1.0651,
+        1.0647,
+        1.0714
+      ],
+      "state_cached_median_s": 0.5726,
+      "peak_rss_bytes": {
+        "python": 4416684032
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 5575518912
+      },
+      "mlx_peak_memory_bytes": 4536436474,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        6.03,
+        8.01,
+        9.46
+      ],
+      "measured_unix": 1790443316.3707972,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "bf16",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-bf16_1024_10q.json"
+    },
+    {
+      "backend": "mlx-bf16",
+      "n_questions": 1,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015
+      ],
+      "load_s": 3.2848,
+      "cold_s": 2.265,
+      "warm_median_s": 2.2579,
+      "warm_s": [
+        2.2462,
+        2.2579,
+        2.2701
+      ],
+      "state_cached_median_s": 0.0903,
+      "peak_rss_bytes": {
+        "python": 4408279040
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 6899099712
+      },
+      "mlx_peak_memory_bytes": 5062198966,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        5.78,
+        7.9,
+        9.4
+      ],
+      "measured_unix": 1790443330.072621,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "bf16",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-bf16_4096_1q.json"
+    },
+    {
+      "backend": "mlx-bf16",
+      "n_questions": 10,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015,
+        3990,
+        3997,
+        3983,
+        3990,
+        3993,
+        4015,
+        3989,
+        3984,
+        3991
+      ],
+      "load_s": 3.3381,
+      "cold_s": 2.8286,
+      "warm_median_s": 2.7998,
+      "warm_s": [
+        2.832,
+        2.7968,
+        2.7998
+      ],
+      "state_cached_median_s": 0.622,
+      "peak_rss_bytes": {
+        "python": 4406149120
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 6943402624
+      },
+      "mlx_peak_memory_bytes": 5062395574,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        5.53,
+        7.71,
+        9.3
+      ],
+      "measured_unix": 1790443347.640775,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "bf16",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-bf16_4096_10q.json"
+    },
+    {
+      "backend": "mlx-bf16",
+      "n_questions": 1,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501
+      ],
+      "load_s": 3.2657,
+      "cold_s": 15.472,
+      "warm_median_s": 15.5073,
+      "warm_s": [
+        15.5202,
+        15.5073,
+        15.4734
+      ],
+      "state_cached_median_s": 0.1546,
+      "peak_rss_bytes": {
+        "python": 4403707904
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 7889725824
+      },
+      "mlx_peak_memory_bytes": 5942822582,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        6.15,
+        7.49,
+        9.1
+      ],
+      "measured_unix": 1790443414.47198,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "bf16",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-bf16_24576_1q.json"
+    },
+    {
+      "backend": "mlx-bf16",
+      "n_questions": 10,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501,
+        24476,
+        24483,
+        24469,
+        24476,
+        24479,
+        24501,
+        24475,
+        24470,
+        24477
+      ],
+      "load_s": 3.278,
+      "cold_s": 16.2813,
+      "warm_median_s": 16.2351,
+      "warm_s": [
+        16.2243,
+        16.2351,
+        16.2657
+      ],
+      "state_cached_median_s": 0.8797,
+      "peak_rss_bytes": {
+        "python": 4405805056
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 7863035904
+      },
+      "mlx_peak_memory_bytes": 5942806198,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.07,
+        7.75,
+        9.06
+      ],
+      "measured_unix": 1790443486.522902,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "bf16",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-bf16_24576_10q.json"
+    },
+    {
+      "backend": "mlx-8bit",
+      "n_questions": 1,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943
+      ],
+      "load_s": 3.3345,
+      "cold_s": 0.7573,
+      "warm_median_s": 0.72,
+      "warm_s": [
+        0.7177,
+        0.72,
+        0.7228
+      ],
+      "state_cached_median_s": 0.0834,
+      "peak_rss_bytes": {
+        "python": 2640986112
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 3772211392
+      },
+      "mlx_peak_memory_bytes": 3074287404,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.14,
+        7.77,
+        9.06
+      ],
+      "measured_unix": 1790443494.139926,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "8bit",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-8bit_1024_1q.json"
+    },
+    {
+      "backend": "mlx-8bit",
+      "n_questions": 10,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943,
+        918,
+        925,
+        911,
+        918,
+        921,
+        943,
+        917,
+        912,
+        919
+      ],
+      "load_s": 3.1502,
+      "cold_s": 1.3124,
+      "warm_median_s": 1.2657,
+      "warm_s": [
+        1.2719,
+        1.2657,
+        1.2621
+      ],
+      "state_cached_median_s": 0.6288,
+      "peak_rss_bytes": {
+        "python": 2635268096
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 4171391040
+      },
+      "mlx_peak_memory_bytes": 3074287404,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        7.51,
+        7.65,
+        9.0
+      ],
+      "measured_unix": 1790443505.379929,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "8bit",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-8bit_1024_10q.json"
+    },
+    {
+      "backend": "mlx-8bit",
+      "n_questions": 1,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015
+      ],
+      "load_s": 3.1569,
+      "cold_s": 2.9904,
+      "warm_median_s": 2.9581,
+      "warm_s": [
+        2.9525,
+        2.9624,
+        2.9581
+      ],
+      "state_cached_median_s": 0.0922,
+      "peak_rss_bytes": {
+        "python": 2639839232
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 5536832896
+      },
+      "mlx_peak_memory_bytes": 3471550184,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.57,
+        7.86,
+        9.04
+      ],
+      "measured_unix": 1790443521.78049,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "8bit",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-8bit_4096_1q.json"
+    },
+    {
+      "backend": "mlx-8bit",
+      "n_questions": 10,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015,
+        3990,
+        3997,
+        3983,
+        3990,
+        3993,
+        4015,
+        3989,
+        3984,
+        3991
+      ],
+      "load_s": 3.1665,
+      "cold_s": 3.572,
+      "warm_median_s": 3.5432,
+      "warm_s": [
+        3.5584,
+        3.5432,
+        3.5354
+      ],
+      "state_cached_median_s": 0.6768,
+      "peak_rss_bytes": {
+        "python": 2624536576
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 5698149760
+      },
+      "mlx_peak_memory_bytes": 3471615720,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        7.82,
+        7.73,
+        8.97
+      ],
+      "measured_unix": 1790443542.268524,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "8bit",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-8bit_4096_10q.json"
+    },
+    {
+      "backend": "mlx-8bit",
+      "n_questions": 1,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501
+      ],
+      "load_s": 3.1447,
+      "cold_s": 19.75,
+      "warm_median_s": 19.8614,
+      "warm_s": [
+        19.8005,
+        19.8614,
+        19.9115
+      ],
+      "state_cached_median_s": 0.1562,
+      "peak_rss_bytes": {
+        "python": 2643197952
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 6518807424
+      },
+      "mlx_peak_memory_bytes": 4350994102,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        6.7,
+        7.34,
+        8.69
+      ],
+      "measured_unix": 1790443626.3357399,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "8bit",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-8bit_24576_1q.json"
+    },
+    {
+      "backend": "mlx-8bit",
+      "n_questions": 10,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501,
+        24476,
+        24483,
+        24469,
+        24476,
+        24479,
+        24501,
+        24475,
+        24470,
+        24477
+      ],
+      "load_s": 3.1668,
+      "cold_s": 20.7629,
+      "warm_median_s": 20.7793,
+      "warm_s": [
+        20.6782,
+        20.7793,
+        21.8013
+      ],
+      "state_cached_median_s": 0.9543,
+      "peak_rss_bytes": {
+        "python": 2643705856
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 6522985664
+      },
+      "mlx_peak_memory_bytes": 4350944950,
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.26,
+        8.35,
+        8.99
+      ],
+      "measured_unix": 1790443717.49426,
+      "settings": {
+        "engine": "mlx 0.32.2 / mlx-lm 0.31.3 (staged runtime)",
+        "precision": "8bit",
+        "compute_dtype": null
+      },
+      "raw": "latency/runs/mlx-8bit_24576_10q.json"
+    },
+    {
+      "backend": "torch-mps-fp32",
+      "n_questions": 1,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943
+      ],
+      "load_s": 7.2396,
+      "cold_s": 2.0776,
+      "warm_median_s": 1.82,
+      "warm_s": [
+        1.82,
+        1.8185,
+        1.8657
+      ],
+      "state_cached_median_s": 0.2243,
+      "peak_rss_bytes": {
+        "python": 11777310720
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 9488876864
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        11.08,
+        15.97,
+        14.21
+      ],
+      "measured_unix": 1790433935.3785548,
+      "settings": {
+        "engine": "transformers 5.17 / torch 2.14 (staged runtime)",
+        "device": "mps",
+        "dtype": "float32",
+        "attn_chunk": 1024
+      },
+      "raw": "latency/runs/torch-mps-fp32_1024_1q.json"
+    },
+    {
+      "backend": "torch-mps-fp32",
+      "n_questions": 10,
+      "state_tokens": 878,
+      "input_tokens_per_question": [
+        943,
+        918,
+        925,
+        911,
+        918,
+        921,
+        943,
+        917,
+        912,
+        919
+      ],
+      "load_s": 5.8844,
+      "cold_s": 3.487,
+      "warm_median_s": 3.126,
+      "warm_s": [
+        3.126,
+        3.124,
+        3.1357
+      ],
+      "state_cached_median_s": 1.534,
+      "peak_rss_bytes": {
+        "python": 11766398976
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 9348826496
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        10.92,
+        15.56,
+        14.11
+      ],
+      "measured_unix": 1790433960.3376808,
+      "settings": {
+        "engine": "transformers 5.17 / torch 2.14 (staged runtime)",
+        "device": "mps",
+        "dtype": "float32",
+        "attn_chunk": 1024
+      },
+      "raw": "latency/runs/torch-mps-fp32_1024_10q.json"
+    },
+    {
+      "backend": "torch-mps-fp32",
+      "n_questions": 1,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015
+      ],
+      "load_s": 6.6133,
+      "cold_s": 7.9626,
+      "warm_median_s": 7.7385,
+      "warm_s": [
+        7.7135,
+        7.7385,
+        7.7569
+      ],
+      "state_cached_median_s": 0.2508,
+      "peak_rss_bytes": {
+        "python": 11774099456
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 9830892736
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        8.41,
+        7.52,
+        7.06
+      ],
+      "measured_unix": 1790438685.325036,
+      "settings": {
+        "engine": "transformers 5.17 / torch 2.14 (staged runtime)",
+        "device": "mps",
+        "dtype": "float32",
+        "attn_chunk": 1024
+      },
+      "raw": "latency/runs/torch-mps-fp32_4096_1q.json"
+    },
+    {
+      "backend": "torch-mps-fp32",
+      "n_questions": 10,
+      "state_tokens": 3950,
+      "input_tokens_per_question": [
+        4015,
+        3990,
+        3997,
+        3983,
+        3990,
+        3993,
+        4015,
+        3989,
+        3984,
+        3991
+      ],
+      "load_s": 5.8354,
+      "cold_s": 9.4943,
+      "warm_median_s": 9.2321,
+      "warm_s": [
+        9.1731,
+        9.2321,
+        9.2805
+      ],
+      "state_cached_median_s": 1.7373,
+      "peak_rss_bytes": {
+        "python": 11766579200
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 9740780928
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        10.4,
+        8.12,
+        7.31
+      ],
+      "measured_unix": 1790438734.979529,
+      "settings": {
+        "engine": "transformers 5.17 / torch 2.14 (staged runtime)",
+        "device": "mps",
+        "dtype": "float32",
+        "attn_chunk": 1024
+      },
+      "raw": "latency/runs/torch-mps-fp32_4096_10q.json"
+    },
+    {
+      "backend": "torch-mps-fp32",
+      "n_questions": 1,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501
+      ],
+      "load_s": 7.5475,
+      "cold_s": 56.4354,
+      "warm_median_s": 61.9146,
+      "warm_s": [
+        55.156,
+        61.9146,
+        80.3434
+      ],
+      "state_cached_median_s": 0.6,
+      "peak_rss_bytes": {
+        "python": 11774935040
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 13703111296
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        7.27,
+        7.84,
+        7.44
+      ],
+      "measured_unix": 1790438999.6904268,
+      "settings": {
+        "engine": "transformers 5.17 / torch 2.14 (staged runtime)",
+        "device": "mps",
+        "dtype": "float32",
+        "attn_chunk": 1024
+      },
+      "raw": "latency/runs/torch-mps-fp32_24576_1q.json"
+    },
+    {
+      "backend": "torch-mps-fp32",
+      "n_questions": 10,
+      "state_tokens": 24436,
+      "input_tokens_per_question": [
+        24501,
+        24476,
+        24483,
+        24469,
+        24476,
+        24479,
+        24501,
+        24475,
+        24470,
+        24477
+      ],
+      "load_s": 7.9699,
+      "cold_s": 72.6584,
+      "warm_median_s": 72.3035,
+      "warm_s": [
+        83.2192,
+        72.3035,
+        58.3757
+      ],
+      "state_cached_median_s": 2.7217,
+      "peak_rss_bytes": {
+        "python": 11775229952
+      },
+      "peak_phys_footprint_bytes": {
+        "python": 13640000128
+      },
+      "results_identical_cold_vs_state_cached": true,
+      "loadavg_at_end": [
+        9.6,
+        8.35,
+        7.72
+      ],
+      "measured_unix": 1790439304.235886,
+      "settings": {
+        "engine": "transformers 5.17 / torch 2.14 (staged runtime)",
+        "device": "mps",
+        "dtype": "float32",
+        "attn_chunk": 1024
+      },
+      "raw": "latency/runs/torch-mps-fp32_24576_10q.json"
+    }
+  ],
+  "scripts": [
+    "release_2b/latency/latency_run.py",
+    "release_2b/latency/run_all.sh",
+    "release_2b/latency/aggregate.py"
+  ]
+}

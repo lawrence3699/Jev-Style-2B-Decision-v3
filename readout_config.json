@@ -1,0 +1,47 @@
+{
+  "format": "macjev-readout-v2",
+  "model_name": "Jev-Style-2B-Decision-v3",
+  "readout": "verdict",
+  "template": "macjev-render-v2-long-options",
+  "layout": "sb",
+  "block_size": 2048,
+  "total_context_limit": 25600,
+  "question_option_limit": null,
+  "slot_tokens": {
+    "yes": {
+      "text": " yes",
+      "id": 9542
+    },
+    "no": {
+      "text": " no",
+      "id": 874
+    },
+    "verdict_slot": {
+      "text": " ->",
+      "id": 1411
+    }
+  },
+  "attention": "block-causal in the 6 full-attention layers: the input is cut into [start, stop) blocks of at most block_size tokens (state blocks; one short question block, or catalogue blocks + rubric blocks when question + options + slots exceed block_size); every block attends to all earlier tokens and to itself with no causal mask inside the block. Gated-DeltaNet layers are ordinary recurrent layers.",
+  "score": "per option k: logit[' yes'] - logit[' no'] at the k-th ' ->' slot, computed as h_slot . (w_yes - w_no) from the final normed hidden state and the tied embedding rows (float32)",
+  "probabilities": "softmax(scores / T) in canonical option order; T = temperatures.global (one global temperature)",
+  "tokenizer_sha256": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+  "budgets": {
+    "max_len": 25600,
+    "question_option_limit": null,
+    "note": "the complete input (state + question + options + readout) <= max_len tokens; there is no separate question/options cap; larger inputs raise InputBudgetError, nothing is truncated"
+  },
+  "temperatures": {
+    "version": "macjev-temperature-v2-global",
+    "global": 0.8278650620942867,
+    "groups": null,
+    "groups_note": "none: this model has one global temperature (no category / family / option-count temperatures)",
+    "fitted_on": "2,000 independent calibration rows (not dev, not test)",
+    "n_rows": 2000,
+    "fit_quality": {
+      "nll_before": 0.3002617012172898,
+      "nll_after": 0.2900580002426921,
+      "n": 2000
+    },
+    "selected_weights": "ema"
+  }
+}

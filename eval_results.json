@@ -1,0 +1,262 @@
+{
+  "format": "jev-style-eval-results-v1",
+  "model": "chaoliangUNSW/Jev-Style-2B-Decision-v3",
+  "evaluated_format": {
+    "engine": "GGUF F16 via jev-score-v2 (llama.cpp 441df11f, Metal), render v2 + block attention",
+    "weights": {
+      "file": "release_2b/gguf/model-f16.gguf (= Jev-Style-2B-Decision-v3-F16.gguf, tensor data identical)",
+      "sha256": "fe18cf4f524e0d59e92a11ee3c012c0b4b03b4e2109e8a35497737e2e55d33dd"
+    },
+    "temperature": {
+      "mode": "global",
+      "value": 0.8278650620942867,
+      "fitted_on_benchmark_items": false
+    },
+    "truncation": "never",
+    "run_policy": "pre-declared, run once (runtime_v2_dev/PREDECLARED_RELEASE_GATES_2B.md)"
+  },
+  "jevbench": {
+    "benchmark": "jevbench-v1.4.1",
+    "repo": "https://github.com/fstandhartinger/jevbench",
+    "commit": "24b9b5c1609a7a9e8fa14f49e5985a836c9dc842",
+    "split": "public",
+    "n_items": 231,
+    "correct": 170,
+    "public_accuracy": 0.7359307359307359,
+    "public_accuracy_wilson_ci95": [
+      0.6755578394149232,
+      0.7885850787366094
+    ],
+    "tiers": {
+      "easy": {
+        "n": 48,
+        "correct": 48,
+        "accuracy": 1.0,
+        "ece_top_label_10bin": 0.01884318271512942
+      },
+      "standard": {
+        "n": 72,
+        "correct": 69,
+        "accuracy": 0.9583333333333334,
+        "ece_top_label_10bin": 0.09887602156622965
+      },
+      "hard": {
+        "n": 111,
+        "correct": 53,
+        "accuracy": 0.4774774774774775,
+        "ece_top_label_10bin": 0.15324274416807362
+      }
+    },
+    "hard_tier_ece_public111": 0.15324274416807362,
+    "hard_tier_ece_note": "board ECE uses all 220 hard items; ours uses the 111 public hard items (approximate comparison)",
+    "unsupported": 0,
+    "protocol": {
+      "template": "macjev-render-v2-long-options",
+      "layout": "sb",
+      "block": 2048,
+      "total_budget_tokens": 25600,
+      "truncation": "never",
+      "question_options_cap": null,
+      "over_budget_rule": "complete rendering > 25,600 tokens -> status unsupported (InputBudgetError), counted per benchmark and scored as wrong",
+      "catalogue_overflow_rule": "question+options over one 2,048-token block -> numbered catalogue in prefix blocks + numbered-option rubric (RendererV2); counted per benchmark",
+      "readout": "FP32 h_slot . (W_yes - W_no) at each option slot; p = softmax(scores / T_global)"
+    },
+    "board": {
+      "file": "results/v1.4.1/jevbench-v1.4.1-results.json",
+      "sha256": "e6754863056503fe2b010410fc7111df884ac1f9ce4449aa369aab61d98092cd",
+      "commit": "24b9b5c1609a7a9e8fa14f49e5985a836c9dc842",
+      "revision": "v1.4.1",
+      "n_systems": 82,
+      "systems_with_higher_public_accuracy": 42,
+      "selected_rows": [
+        {
+          "key": "jev-1.13.0",
+          "name": "Jev 1.13.0 (TypeSafe AI)",
+          "public_accuracy": 0.8658008658008658,
+          "underlying": "closed"
+        },
+        {
+          "key": "raw-qwen3-4b-instruct-2507",
+          "name": "Raw Qwen3 4B Instruct 2507 direct logits",
+          "public_accuracy": 0.696969696969697,
+          "underlying": "Qwen3-4B-Instruct-2507 BF16"
+        },
+        {
+          "key": "decision-2b",
+          "name": "Decision 2B (FlyMy.AI, v59)",
+          "public_accuracy": 0.7532467532467533,
+          "underlying": "openbmb/MiniCPM5-2B with a trained LoRA adapter and pointer head (26.2M trainable parameters)"
+        },
+        {
+          "key": "decider-2b",
+          "name": "decider-2b (Mapika)",
+          "public_accuracy": 0.70995670995671,
+          "underlying": "Qwen3.5-2B-Base with a trained decision readout, 1.9B"
+        },
+        {
+          "key": "laya",
+          "name": "Laya (Convai Innovations, ModernBERT-large 421M)",
+          "public_accuracy": 0.5844155844155844,
+          "underlying": "ModernBERT-large encoder + option-marker decision head, 421M, RLCD-trained"
+        },
+        {
+          "key": "kev-0.6b",
+          "name": "kev 0.6B (research preview)",
+          "public_accuracy": 0.6666666666666666,
+          "underlying": "Qwen3-0.6B-Base + LoRA + learned pointer head; jaredpalmer/kev-0.6b"
+        },
+        {
+          "key": "open-jev-zefan-2b",
+          "name": "Open-Jev 2B (Zefan Cai)",
+          "public_accuracy": 0.645021645021645,
+          "underlying": "Qwen3.5-2B plus rank-8 LoRA and trained scalar decision head"
+        }
+      ]
+    },
+    "previous_v3_0.8b": {
+      "public_accuracy": 0.6406926406926406,
+      "correct": 148,
+      "source_sha256": "6c1f94220dc8197e504827213b3567e00919740bb705929bed88535812f2a033"
+    },
+    "source": {
+      "file": "runs/macjev/bench_2b/jevbench/gguf_f16/results.json",
+      "sha256": "9a467fb4ddcc9a42f9d82ff8f8cf1ce5cfafd51d27b8d4dca2b9c1a681f67a9c"
+    }
+  },
+  "zero_shot": {
+    "benchmark": "elcronos zero-shot sets (tweet_topic, fin_topic, daily_dialog)",
+    "elcronos_commit": "a1901bc3d520e73936de8d4326545c0cdcf742fb",
+    "sets": {
+      "tweet_topic": {
+        "n": 1693,
+        "n_unsupported": 0,
+        "n_classes": 6,
+        "accuracy": 0.822209096278795,
+        "accuracy_ci95": [
+          0.8038984051978736,
+          0.8399438865918486
+        ],
+        "macro_f1": 0.677897069437572,
+        "macro_f1_ci95": [
+          0.6455020683998111,
+          0.7085891187789015
+        ],
+        "ece15_temperature_calibrated": 0.027919883880813873,
+        "ece15_raw_T1": 0.08661185749227743,
+        "nll": 0.5282712172517265,
+        "brier": 0.262576013332696,
+        "majority_class_accuracy": 0.3963378617838157,
+        "ci_method": "percentile bootstrap, 10000 resamples, default_rng(0), rows resampled i.i.d.",
+        "in_training_pool": false
+      },
+      "fin_topic": {
+        "n": 4117,
+        "n_unsupported": 0,
+        "n_classes": 20,
+        "accuracy": 0.6111246052951178,
+        "accuracy_ci95": [
+          0.5960650959436483,
+          0.6259412193344669
+        ],
+        "macro_f1": 0.5897964463354406,
+        "macro_f1_ci95": [
+          0.5694510128995812,
+          0.6071880523494645
+        ],
+        "ece15_temperature_calibrated": 0.06460657860002232,
+        "ece15_raw_T1": 0.03822893519578447,
+        "nll": 1.159706614583174,
+        "brier": 0.5285731205072254,
+        "majority_class_accuracy": 0.2069468059266456,
+        "ci_method": "percentile bootstrap, 10000 resamples, default_rng(0), rows resampled i.i.d.",
+        "in_training_pool": false
+      },
+      "daily_dialog": {
+        "n": 7740,
+        "n_unsupported": 0,
+        "n_classes": 7,
+        "accuracy": 0.7744186046511627,
+        "accuracy_ci95": [
+          0.7649870801033591,
+          0.7835917312661499
+        ],
+        "macro_f1": 0.3724097968832693,
+        "macro_f1_ci95": [
+          0.3480292808769088,
+          0.3955194464258293
+        ],
+        "ece15_temperature_calibrated": 0.03934861337502408,
+        "ece15_raw_T1": 0.027480647988479354,
+        "nll": 0.6778540478231467,
+        "brier": 0.3382397818519505,
+        "majority_class_accuracy": 0.8166666666666667,
+        "ci_method": "percentile bootstrap, 10000 resamples, default_rng(0), rows resampled i.i.d.",
+        "in_training_pool": false
+      }
+    },
+    "jev_reference": {
+      "values": {
+        "tweet_topic": {
+          "accuracy": 0.7932663910218547,
+          "macro_f1": 0.6936,
+          "ece15": 0.0631
+        },
+        "fin_topic": {
+          "accuracy": 0.669905270828273,
+          "macro_f1": 0.6298,
+          "ece15": 0.1664
+        },
+        "daily_dialog": {
+          "accuracy": 0.7099483204134367,
+          "macro_f1": 0.3847,
+          "ece15": 0.1563
+        }
+      },
+      "source": "https://github.com/elcronos/jev-vs-open-decision-models/blob/a1901bc3d520e73936de8d4326545c0cdcf742fb/results/cross_dataset_summary.json",
+      "source_sha256": "5380d3a45395bfdf5340d75e7e18ecdb4b636734295d234839c7113efae608d0",
+      "note": "Jev numbers as published by elcronos (raw API probabilities, no temperature); sha256 recorded by the 0.8B adapter, not re-verified locally"
+    },
+    "previous_v3_0.8b": {
+      "tweet_topic": {
+        "accuracy": 0.754873006497342,
+        "macro_f1": 0.5993905130101003
+      },
+      "fin_topic": {
+        "accuracy": 0.4670876852076755,
+        "macro_f1": 0.45174530293977544
+      },
+      "daily_dialog": {
+        "accuracy": 0.32493540051679587,
+        "macro_f1": 0.2331496717992918
+      }
+    },
+    "protocol": {
+      "template": "macjev-render-v2-long-options",
+      "layout": "sb",
+      "block": 2048,
+      "total_budget_tokens": 25600,
+      "truncation": "never",
+      "question_options_cap": null,
+      "over_budget_rule": "complete rendering > 25,600 tokens -> status unsupported (InputBudgetError), counted per benchmark and scored as wrong",
+      "catalogue_overflow_rule": "question+options over one 2,048-token block -> numbered catalogue in prefix blocks + numbered-option rubric (RendererV2); counted per benchmark",
+      "readout": "FP32 h_slot . (W_yes - W_no) at each option slot; p = softmax(scores / T_global)"
+    },
+    "source": {
+      "file": "runs/macjev/bench_2b/zeroshot/gguf_f16/metrics.json",
+      "sha256": "f80c80ae55678cce974927df0c6a33a5bf5e2ba85e9b14a181e6e5d16bcee3c5"
+    },
+    "run": {
+      "file": "runs/macjev/bench_2b/zeroshot/gguf_f16/run.json",
+      "sha256": "0361c42dc3247387b8325aedc872de644b9c0eca80f6e6db9fd68629c27fd389"
+    }
+  },
+  "contamination": {
+    "source": {
+      "file": "validation/benchmarks/contamination.json",
+      "sha256": "87f7f645b950b4cd626ff248b1899578c078db74d4c74bc944b017badc06a8e8",
+      "generated_from": "runs/macjev/release_2b/cards/_build/contamination_public.json"
+    },
+    "note": "JevBench public items vs the whole 2B training pool: state hash, instruction hash, 32+ character text fields, 13-word spans"
+  },
+  "decision_index": "requested from the maintainer after release (not run by us)"
+}

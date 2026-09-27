@@ -1,0 +1,40 @@
+{
+ "chart": "zeroshot",
+ "metric": "accuracy over every row of the pinned test files",
+ "values": {
+  "tweet_topic": {
+   "2b": 0.822209096278795,
+   "2b_ci95": [
+    0.8038984051978736,
+    0.8399438865918486
+   ],
+   "2b_macro_f1": 0.677897069437572,
+   "2b_ece15": 0.027919883880813873,
+   "08b": 0.754873006497342,
+   "jev": 0.7932663910218547,
+   "jev_macro_f1": 0.6936,
+   "jev_ece15": 0.0631,
+   "n": 1693
+  },
+  "fin_topic": {
+   "2b": 0.6111246052951178,
+   "2b_ci95": [
+    0.5960650959436483,
+    0.6259412193344669
+   ],
+   "2b_macro_f1": 0.5897964463354406,
+   "2b_ece15": 0.06460657860002232,
+   "08b": 0.4670876852076755,
+   "jev": 0.669905270828273,
+   "jev_macro_f1": 0.6298,
+   "jev_ece15": 0.1664,
+   "n": 4117
+  }
+ },
+ "sources": {
+  "2b": "https://huggingface.co/chaoliangUNSW/Jev-Style-2B-Decision-v3/blob/main/validation/benchmarks/zeroshot_metrics.json",
+  "0.8b": "https://huggingface.co/chaoliangUNSW/Jev-Style-0.8B-Decision-v3/blob/main/figures/zeroshot.json (0.8B v3 card; v3_recomputed: tweet_topic 1278/1693, fin_topic 1923/4117)",
+  "jev": "https://github.com/elcronos/jev-vs-open-decision-models/blob/a1901bc3d520e73936de8d4326545c0cdcf742fb/results/cross_dataset_summary.json (as copied in https://huggingface.co/chaoliangUNSW/Jev-Style-2B-Decision-v3/blob/main/validation/benchmarks/zeroshot_metrics.json :: comparison)"
+ },
+ "footnote": "Zero-shot: none of these test sets is in the 2B or 0.8B training pool; accuracy over every row of the pinned test files (n = 1,693 and 4,117). 2B v3: GGUF F16 engine, one global temperature, run once; tweet_topic 95% CI 80.4-84.0%. Jev (1.13, API): numbers published by the elcronos jev-vs-open-decision-models study (cross_dataset_summary.json @ a1901bc), not re-run by us. Macro-F1 is below Jev on both sets (tweet_topic 67.8% vs 69.4%; fin_topic 59.0% vs 63.0%)."
+}

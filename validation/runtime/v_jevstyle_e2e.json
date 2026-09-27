@@ -1,0 +1,80 @@
+{
+ "systemone_2b_release": {
+  "model": "jev-style-2b-decision-v3",
+  "answers": {
+   "team": {
+    "type": "choice",
+    "choice": "billing",
+    "confidence": 0.9802240272350504,
+    "probabilities": {
+     "billing": 0.9868160181567003,
+     "tech": 0.0073588517073361745,
+     "sales": 0.0058251301359634414
+    }
+   },
+   "urgent": {
+    "type": "noul",
+    "noul": 0.6980439916465264
+   },
+   "anger": {
+    "type": "score",
+    "score": 1.8349445223126968,
+    "confidence": 0.7639580848277534,
+    "legend": {
+     "0": "calm",
+     "1": "annoyed",
+     "2": "angry"
+    },
+    "probabilities": {
+     "0": 0.007694200905805288,
+     "1": 0.14966707587569247,
+     "2": 0.8426387232185022
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 168,
+   "state_tokens": 48,
+   "output_tokens": 0
+  },
+  "latency_ms": 17843.8,
+  "timing": {
+   "total_ms": 17843.8
+  },
+  "backend": "torch-cpu"
+ },
+ "models_2b_release": {
+  "object": "list",
+  "data": [
+   {
+    "id": "jev-style-2b-decision-v3",
+    "context_tokens": 25600,
+    "head_max_tokens": 25600,
+    "backend": "torch-cpu"
+   }
+  ],
+  "models": [
+   {
+    "name": "jev-style-2b-decision-v3",
+    "release_date": null,
+    "description": "Jev-Style 2B Decision v3: local typed decisions (noul / choice / score)"
+   }
+  ]
+ },
+ "over_budget": [
+  422,
+  "input_budget_exceeded"
+ ],
+ "k60_answers": {
+  "q0": "opt1",
+  "q1": "opt1",
+  "q2": "opt2"
+ },
+ "adapter_vs_direct": [
+  2.220446049250313e-16,
+  0.0
+ ],
+ "default_release_model_id": "jev-style-0.8b-decision-v3",
+ "default_release_same_answers": true,
+ "text_path_vs_dev_ref_max_abs_d": 3.4570693969726562e-06
+}

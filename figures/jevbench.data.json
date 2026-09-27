@@ -1,0 +1,49 @@
+{
+ "chart": "jevbench",
+ "metric": "JevBench v1.4.1 public accuracy (231 items)",
+ "rows": [
+  {
+   "label": "Jev-Style 2B v3 (this model)",
+   "accuracy": 0.7359307359307359,
+   "accuracy_pct_1dp": 73.6,
+   "source": "https://huggingface.co/chaoliangUNSW/Jev-Style-2B-Decision-v3/blob/main/validation/benchmarks/jevbench_v1.4.1_results.json :: public_accuracy (170/231)"
+  },
+  {
+   "label": "decider-2b (Mapika, Qwen3.5-2B-Base)",
+   "accuracy": 0.70995670995671,
+   "accuracy_pct_1dp": 71.0,
+   "source": "https://github.com/fstandhartinger/jevbench/blob/v1.4.1/results/v1.4.1/jevbench-v1.4.1-results.json :: systems[decider-2b]"
+  },
+  {
+   "label": "Open-Jev 2B (Zefan Cai, Qwen3.5-2B + LoRA)",
+   "accuracy": 0.645021645021645,
+   "accuracy_pct_1dp": 64.5,
+   "source": "https://github.com/fstandhartinger/jevbench/blob/v1.4.1/results/v1.4.1/jevbench-v1.4.1-results.json :: systems[open-jev-zefan-2b]"
+  },
+  {
+   "label": "Jev-Style 0.8B v3",
+   "accuracy": 0.6406926406926406,
+   "accuracy_pct_1dp": 64.1,
+   "source": "https://huggingface.co/chaoliangUNSW/Jev-Style-0.8B-Decision-v3/blob/main/figures/jevbench.data.json (0.8B v3 card; row Jev-Style 0.8B v3, 148/231)"
+  },
+  {
+   "label": "Laya (ModernBERT-large, 421M)",
+   "accuracy": 0.5844155844155844,
+   "accuracy_pct_1dp": 58.4,
+   "source": "https://github.com/fstandhartinger/jevbench/blob/v1.4.1/results/v1.4.1/jevbench-v1.4.1-results.json :: systems[laya]"
+  }
+ ],
+ "reference_line": {
+  "label": "Jev 1.13.0",
+  "accuracy": 0.8658008658008658,
+  "source": "https://github.com/fstandhartinger/jevbench/blob/v1.4.1/results/v1.4.1/jevbench-v1.4.1-results.json :: systems[jev-1.13.0]"
+ },
+ "ci95_wilson_2b": [
+  0.6755578394149232,
+  0.7885850787366094
+ ],
+ "board_systems_higher_than_2b": 42,
+ "board_systems": 82,
+ "board_sha256": "e6754863056503fe2b010410fc7111df884ac1f9ce4449aa369aab61d98092cd",
+ "footnote": "JevBench v1.4.1, 231 public items. 2B v3: self-run once with the official harness (commit 24b9b5c), GGUF F16 engine, one global temperature, not an official board entry; 95% CI 67.6-78.9% (Wilson), so its lead over decider-2b (164/231) is inside the CI; training-pool contamination scan: 0 hits. Other rows: public accuracy as published in the board's v1.4.1 results file. Shown: the Qwen3.5-2B-family systems on the board, our 0.8B v3, Laya and Jev; 42 of the 82 board systems score higher than 73.6%."
+}

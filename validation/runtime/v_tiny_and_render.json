@@ -1,0 +1,24 @@
+{
+ "render": {
+  "question_errors": 2,
+  "qerr_kinds": [
+   "question text ('ins') must be a non-empty string"
+  ],
+  "n_rendered_equal": 406,
+  "catalogue_overflow": 43,
+  "both_rejected": 2,
+  "edges": {
+   "short_2048": 2014,
+   "short_2049": [
+    2015,
+    2074
+   ]
+  },
+  "big_k_blocks": 14,
+  "big_k_tokens": 23102
+ },
+ "tiny": {
+  "cases": 24,
+  "max_abs_d_vs_dev_ref": 2.1457672119140625e-06
+ }
+}

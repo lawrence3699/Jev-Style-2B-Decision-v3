@@ -1,0 +1,511 @@
+{
+ "benchmark": "jevbench-v1.4.1",
+ "repo": "https://github.com/fstandhartinger/jevbench",
+ "commit": "24b9b5c1609a7a9e8fa14f49e5985a836c9dc842",
+ "adapter": "macjev-ext-jevbench-v2 (metrics: macjev-ext-jevbench-v1)",
+ "vendor_verify": {
+  "ok": true,
+  "commit": "24b9b5c1609a7a9e8fa14f49e5985a836c9dc842",
+  "files": 13,
+  "source_json_sha256": "75b86955079a063422c79f5c31e8c74203609b9a492227855e2a9399c937b693"
+ },
+ "scorer": {
+  "scorer": "macjev-v2-gguf",
+  "readout": "verdict",
+  "kind": "gguf",
+  "engine_class": "macjev.export.gguf_v2.GGUFScorerV2",
+  "arch": "qwen3_5",
+  "template": "macjev-render-v2-long-options",
+  "layout": "sb",
+  "block": 2048,
+  "max_len": 25600,
+  "head_max": null,
+  "dtype": "gguf",
+  "base": "runs/macjev/release_2b/gguf/model-f16.gguf",
+  "sha256": "c1948e55d3a498292b818451b7726aca540c96f70c95352554f27a965ef3304b"
+ },
+ "model_name": "Jev-Style-2B-Decision-v3-GGUF-F16",
+ "n_items": 231,
+ "seconds": 262.2442800998688,
+ "timing": {
+  "n_items": 231,
+  "tokens": 144044,
+  "seconds": 261.91108745516976,
+  "tokens_per_second": 549.9728988168758,
+  "seconds_per_item": 1.1338142314076614
+ },
+ "files_sha256": {
+  "predictions.jsonl": "3168be473c97b93d75fa691686623ada8a2f9540fd1aceffeaf9e206608ef8ee",
+  "answers.jsonl": "e3bbb96c40a48fdd28e96aa9e8c34ce1c3fc2d2715f0a777ca35849e38fe5638",
+  "harness_records.jsonl": "b44d4b5389082af91330dc9d328f86ba5e3e599b3c69036c0ec6f1d98b946004",
+  "timings.jsonl": "73795be0585930e2a1b6b24d91b8349b434e58ef2a82144f679797e9e4f3775e"
+ },
+ "protocol": {
+  "template": "macjev-render-v2-long-options",
+  "layout": "sb",
+  "block": 2048,
+  "total_budget_tokens": 25600,
+  "truncation": "never",
+  "question_options_cap": null,
+  "over_budget_rule": "complete rendering > 25,600 tokens -> status unsupported (InputBudgetError), counted per benchmark and scored as wrong",
+  "catalogue_overflow_rule": "question+options over one 2,048-token block -> numbered catalogue in prefix blocks + numbered-option rubric (RendererV2); counted per benchmark",
+  "readout": "FP32 h_slot . (W_yes - W_no) at each option slot; p = softmax(scores / T_global)"
+ },
+ "catalogue_overflow": {},
+ "utc": "2026-09-26T12:06:27Z",
+ "public_accuracy": 0.7359307359307359,
+ "public_accuracy_counts": {
+  "correct": 170,
+  "scorable": 231
+ },
+ "public_accuracy_independent_check": 0.7359307359307359,
+ "tiers": {
+  "easy": {
+   "n": 48,
+   "n_scorable": 48,
+   "n_correct": 48,
+   "accuracy": 1.0,
+   "schema_validity": 1.0,
+   "schema_validity_strict": 1.0,
+   "operational_success": 1.0,
+   "brier_mean": 0.0016946904719700839,
+   "ece_top_label_10bin": 0.01884318271512942,
+   "calibration_n": 48,
+   "ordinal_mae": null,
+   "per_family": {
+    "extraction": {
+     "n": 12,
+     "accuracy": 1.0
+    },
+    "fact": {
+     "n": 12,
+     "accuracy": 1.0
+    },
+    "intent": {
+     "n": 12,
+     "accuracy": 1.0
+    },
+    "tool_selection": {
+     "n": 12,
+     "accuracy": 1.0
+    }
+   }
+  },
+  "standard": {
+   "n": 72,
+   "n_scorable": 72,
+   "n_correct": 69,
+   "accuracy": 0.9583333333333334,
+   "schema_validity": 1.0,
+   "schema_validity_strict": 1.0,
+   "operational_success": 1.0,
+   "brier_mean": 0.07269926087469171,
+   "ece_top_label_10bin": 0.09887602156622965,
+   "calibration_n": 72,
+   "ordinal_mae": 0.10494098738063083,
+   "per_family": {
+    "adequacy": {
+     "n": 12,
+     "accuracy": 0.8333333333333334
+    },
+    "extraction": {
+     "n": 12,
+     "accuracy": 1.0
+    },
+    "intent": {
+     "n": 12,
+     "accuracy": 1.0
+    },
+    "ordinal": {
+     "n": 12,
+     "accuracy": 1.0
+    },
+    "policy": {
+     "n": 12,
+     "accuracy": 1.0
+    },
+    "routing": {
+     "n": 12,
+     "accuracy": 0.9166666666666666
+    }
+   }
+  },
+  "hard": {
+   "n": 111,
+   "n_scorable": 111,
+   "n_correct": 53,
+   "accuracy": 0.4774774774774775,
+   "schema_validity": 1.0,
+   "schema_validity_strict": 1.0,
+   "operational_success": 1.0,
+   "brier_mean": 0.6071787802170037,
+   "ece_top_label_10bin": 0.15324274416807362,
+   "calibration_n": 111,
+   "ordinal_mae": 0.6837138642214399,
+   "per_family": {
+    "adversarial": {
+     "n": 6,
+     "accuracy": 0.6666666666666666
+    },
+    "ambiguous": {
+     "n": 7,
+     "accuracy": 0.42857142857142855
+    },
+    "judge_hard": {
+     "n": 17,
+     "accuracy": 0.47058823529411764
+    },
+    "long_policy": {
+     "n": 19,
+     "accuracy": 0.3157894736842105
+    },
+    "multi_hop": {
+     "n": 18,
+     "accuracy": 0.7222222222222222
+    },
+    "probability": {
+     "n": 10,
+     "accuracy": 0.4
+    },
+    "routing_hard": {
+     "n": 5,
+     "accuracy": 1.0
+    },
+    "temporal_numeric": {
+     "n": 15,
+     "accuracy": 0.13333333333333333
+    },
+    "tradeoff": {
+     "n": 6,
+     "accuracy": 0.16666666666666666
+    },
+    "trap": {
+     "n": 8,
+     "accuracy": 0.875
+    }
+   }
+  }
+ },
+ "hard_tier_ece_public111": 0.15324274416807362,
+ "hard_tier_ece_bins": [
+  {
+   "lo": 0.0,
+   "hi": 0.1,
+   "n": 0,
+   "mean_confidence": null,
+   "accuracy": null
+  },
+  {
+   "lo": 0.1,
+   "hi": 0.2,
+   "n": 0,
+   "mean_confidence": null,
+   "accuracy": null
+  },
+  {
+   "lo": 0.2,
+   "hi": 0.3,
+   "n": 1,
+   "mean_confidence": 0.21388788145283613,
+   "accuracy": 0.0
+  },
+  {
+   "lo": 0.3,
+   "hi": 0.4,
+   "n": 13,
+   "mean_confidence": 0.3512620124154394,
+   "accuracy": 0.23076923076923078
+  },
+  {
+   "lo": 0.4,
+   "hi": 0.5,
+   "n": 19,
+   "mean_confidence": 0.4498371724402195,
+   "accuracy": 0.42105263157894735
+  },
+  {
+   "lo": 0.5,
+   "hi": 0.6,
+   "n": 18,
+   "mean_confidence": 0.5561807791811684,
+   "accuracy": 0.3888888888888889
+  },
+  {
+   "lo": 0.6,
+   "hi": 0.7,
+   "n": 17,
+   "mean_confidence": 0.6470557809575238,
+   "accuracy": 0.35294117647058826
+  },
+  {
+   "lo": 0.7,
+   "hi": 0.8,
+   "n": 18,
+   "mean_confidence": 0.7435771863244336,
+   "accuracy": 0.5
+  },
+  {
+   "lo": 0.8,
+   "hi": 0.9,
+   "n": 13,
+   "mean_confidence": 0.8404461860278016,
+   "accuracy": 0.6923076923076923
+  },
+  {
+   "lo": 0.9,
+   "hi": 1.0,
+   "n": 12,
+   "mean_confidence": 0.9467793508081911,
+   "accuracy": 0.9166666666666666
+  }
+ ],
+ "ordinal_mae_all_score_items": 0.29786527966090054,
+ "n_score_items": 18,
+ "brier_mean_all": 0.3147728854100423,
+ "probability_items_mean_tvd": 0.33663270227830244,
+ "probability_items_n": 10,
+ "calibration_axis_proxy_public_hard": 67.84409046927752,
+ "unsupported": {
+  "total": 0,
+  "by_tier": {},
+  "by_reason": {},
+  "rule": "over the 25,600-token TOTAL budget: counted as incorrect; never truncated"
+ },
+ "accuracy_on_supported_only": 0.7359307359307359,
+ "schema_validity": 1.0,
+ "schema_validity_strict": 1.0,
+ "paraphrase_consistency": {
+  "pairs": 36,
+  "both_valid": 36,
+  "agree": 35,
+  "agreement": 0.9722222222222222,
+  "both_correct_rate_all_pairs": 0.9444444444444444
+ },
+ "temperature": {
+  "mode": "global",
+  "file": "explicit --temperature",
+  "sha256": null,
+  "value": 0.8278650620942867,
+  "groups_used": {
+   "global": {
+    "T": 0.8278650620942867,
+    "n_items": 231
+   }
+  },
+  "fitted_on_benchmark_items": false
+ },
+ "harness_summary_all": {
+  "n_planned": 231,
+  "n_attempted": 231,
+  "n_scorable": 231,
+  "n_valid": 231,
+  "n_correct": 170,
+  "accuracy": 0.7359307359307359,
+  "coverage": 1.0,
+  "macro_accuracy": 0.7182687792465914
+ },
+ "comparison": {
+  "source_file": "results/v1.4.1/jevbench-v1.4.1-results.json",
+  "source_sha256": "e6754863056503fe2b010410fc7111df884ac1f9ce4449aa369aab61d98092cd",
+  "revision": "v1.4.1",
+  "n_systems": 82,
+  "commit": "24b9b5c1609a7a9e8fa14f49e5985a836c9dc842",
+  "rows": [
+   {
+    "key": "jev-1.13.0",
+    "label": "Jev 1.13.0",
+    "display": "Jev 1.13.0 (TypeSafe AI)",
+    "repo": "https://docs.typesafe.ai",
+    "underlying": "closed",
+    "public_accuracy": 0.8658008658008658,
+    "public_correct_of_231": 200,
+    "intelligence": 53.05904597275748,
+    "calibration": 76.3389831504074,
+    "sealed_accuracy": 0.36688311688311687,
+    "jevbench_score": 63.29205745601932,
+    "rank": 1,
+    "ece_hard_220": 0.06061111111111118,
+    "tiers_v12_full": {
+     "easy": 1.0,
+     "standard": 0.9895833333333334,
+     "judge": 0.9452054794520548,
+     "hard": 0.740909090909091
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[0] (key 'jev-1.13.0') @ 24b9b5c1609a"
+   },
+   {
+    "key": "laya",
+    "label": "Laya",
+    "display": "Laya (Convai Innovations, ModernBERT-large 421M)",
+    "repo": "https://huggingface.co/convaiinnovations/laya",
+    "underlying": "ModernBERT-large encoder + option-marker decision head, 421M, RLCD-trained",
+    "public_accuracy": 0.5844155844155844,
+    "public_correct_of_231": 135,
+    "intelligence": 36.132988467190394,
+    "calibration": 63.67551046176046,
+    "sealed_accuracy": 0.30844155844155846,
+    "jevbench_score": 30.251281619829957,
+    "rank": 36,
+    "ece_hard_220": 0.20550909090909092,
+    "tiers_v12_full": {
+     "easy": 0.9444444444444444,
+     "standard": 0.7291666666666666,
+     "judge": 0.6917808219178082,
+     "hard": 0.3409090909090909
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[35] (key 'laya') @ 24b9b5c1609a"
+   },
+   {
+    "key": "mghafiri-qwen3.5-0.8b-decision-model",
+    "label": "same backbone: Qwen3.5-0.8B Decision Model (mghafiri)",
+    "display": "Qwen3.5-0.8B Decision Model (Mourad Ghafiri)",
+    "repo": "https://huggingface.co/mghafiri/qwen3.5-0.8B-decision-model",
+    "underlying": "Qwen3.5-0.8B-Base fine-tuned as a JevLite decision model with per-question calibration",
+    "public_accuracy": 0.5930735930735931,
+    "public_correct_of_231": 137,
+    "intelligence": 28.073004486611502,
+    "calibration": 68.22744227994228,
+    "sealed_accuracy": 0.3474025974025974,
+    "jevbench_score": 14.540627482985634,
+    "rank": 60,
+    "ece_hard_220": null,
+    "tiers_v12_full": {
+     "easy": 0.9861111111111112,
+     "standard": 0.5520833333333334,
+     "judge": 0.3424657534246575,
+     "hard": 0.509090909090909
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[59] (key 'mghafiri-qwen3.5-0.8b-decision-model') @ 24b9b5c1609a"
+   },
+   {
+    "key": "simplejev-qwen3.5-0.8b",
+    "label": "same backbone, untrained: SimpleJev Qwen3.5-0.8B",
+    "display": "SimpleJev (Qwen3.5-0.8B, CPU)",
+    "repo": "https://github.com/featherless-ai/simple-jev",
+    "underlying": "Qwen3.5-0.8B through SimpleJev native assistant-prefill option-logit scorer",
+    "public_accuracy": 0.5454545454545454,
+    "public_correct_of_231": 126,
+    "intelligence": 21.482479668016303,
+    "calibration": 49.07354475109724,
+    "sealed_accuracy": 0.3474025974025974,
+    "jevbench_score": 7.459762136724042,
+    "rank": 68,
+    "ece_hard_220": 0.3060342388575625,
+    "tiers_v12_full": {
+     "easy": 0.875,
+     "standard": 0.5729166666666666,
+     "judge": 0.1917808219178082,
+     "hard": 0.4
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[67] (key 'simplejev-qwen3.5-0.8b') @ 24b9b5c1609a"
+   },
+   {
+    "key": "decider-2b",
+    "label": "decider-2b",
+    "display": "decider-2b (Mapika)",
+    "repo": "https://huggingface.co/Mapika/decider-2b",
+    "underlying": "Qwen3.5-2B-Base with a trained decision readout, 1.9B",
+    "public_accuracy": 0.70995670995671,
+    "public_correct_of_231": 164,
+    "intelligence": 38.54932735543702,
+    "calibration": 43.48691774891777,
+    "sealed_accuracy": 0.24675324675324675,
+    "jevbench_score": 30.7375448157181,
+    "rank": 34,
+    "ece_hard_220": 0.3221518181818179,
+    "tiers_v12_full": {
+     "easy": 1.0,
+     "standard": 0.8541666666666666,
+     "judge": 0.773972602739726,
+     "hard": 0.4727272727272727
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[33] (key 'decider-2b') @ 24b9b5c1609a"
+   },
+   {
+    "key": "kev-0.6b",
+    "label": "kev 0.6B",
+    "display": "kev 0.6B (research preview)",
+    "repo": "https://github.com/jaredpalmer/kev",
+    "underlying": "Qwen3-0.6B-Base + LoRA + learned pointer head; jaredpalmer/kev-0.6b",
+    "public_accuracy": 0.6666666666666666,
+    "public_correct_of_231": 154,
+    "intelligence": 34.20432736698408,
+    "calibration": 49.957886527801605,
+    "sealed_accuracy": 0.24025974025974026,
+    "jevbench_score": 24.750427849352384,
+    "rank": 45,
+    "ece_hard_220": 0.26937623307785324,
+    "tiers_v12_full": {
+     "easy": 1.0,
+     "standard": 0.8125,
+     "judge": 0.6643835616438356,
+     "hard": 0.4
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[44] (key 'kev-0.6b') @ 24b9b5c1609a"
+   },
+   {
+    "key": "lev-350m",
+    "label": "lev-350m",
+    "display": "lev-350m (Franck Verrot, LFM2.5-350M)",
+    "repo": "https://github.com/franckverrot/lev",
+    "underlying": "LiquidAI/LFM2.5-350M with a LoRA and a 6.5M-parameter pointer head (a kev clone)",
+    "public_accuracy": 0.5844155844155844,
+    "public_correct_of_231": 135,
+    "intelligence": 34.75234376694234,
+    "calibration": 70.61387806637806,
+    "sealed_accuracy": 0.25,
+    "jevbench_score": 28.501129766483672,
+    "rank": 37,
+    "ece_hard_220": 0.12270454545454548,
+    "tiers_v12_full": {
+     "easy": 0.9861111111111112,
+     "standard": 0.71875,
+     "judge": 0.6917808219178082,
+     "hard": 0.36818181818181817
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[36] (key 'lev-350m') @ 24b9b5c1609a"
+   },
+   {
+    "key": "decision-fast",
+    "label": "Decision Fast (Qwen3-0.6B)",
+    "display": "Decision Fast (FlyMy.AI, v53a)",
+    "repo": "https://huggingface.co/flymy-ai/decision-fast-preview",
+    "underlying": "Qwen/Qwen3-0.6B-Base with a trained LoRA adapter and pointer head (10.6M trainable parameters)",
+    "public_accuracy": 0.6320346320346321,
+    "public_correct_of_231": 146,
+    "intelligence": 37.074471307080934,
+    "calibration": 65.30757379702415,
+    "sealed_accuracy": 0.2564935064935065,
+    "jevbench_score": 32.492203456270644,
+    "rank": 33,
+    "ece_hard_220": 0.17070899271518503,
+    "tiers_v12_full": {
+     "easy": 0.9861111111111112,
+     "standard": 0.78125,
+     "judge": 0.7465753424657534,
+     "hard": 0.38636363636363635
+    },
+    "source": "results/v1.4.1/jevbench-v1.4.1-results.json systems[32] (key 'decision-fast') @ 24b9b5c1609a"
+   }
+  ],
+  "notes": [
+   "public_accuracy = accuracy on the 231 public items (docs/METHOD-v1.4.md, variable p).",
+   "intelligence / calibration are the official v1.4 axes (0-100): they blend held-out, judge and 308 sealed items that are not public, so a public-only run cannot reproduce them.",
+   "tiers_v12_full are accuracies on the full v1.2 tiers (public + held-out), not the public subsets; ece_hard_220 is over all 220 hard items."
+  ]
+ },
+ "ours_0.8b_v3": {
+  "label": "Jev-Style-0.8B-Decision-v3 (ours, v1 protocol)",
+  "public_accuracy": 0.6406926406926406,
+  "correct": 148,
+  "tiers": {
+   "easy": 1.0,
+   "standard": 0.8194444444444444,
+   "hard": 0.36936936936936937
+  },
+  "hard_tier_ece_public111": 0.19980380205815876,
+  "ordinal_mae": 0.4283973452495316,
+  "source": "runs/macjev/received/ext_evals/main/jevbench/results.json",
+  "source_sha256": "6c1f94220dc8197e504827213b3567e00919740bb705929bed88535812f2a033"
+ }
+}

@@ -1,0 +1,56 @@
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]Loading weights:   0%|          | 1/320 [00:00<00:44,  7.22it/s]Loading weights:  67%|██████▋   | 214/320 [00:00<00:00, 1079.98it/s]Loading weights: 100%|██████████| 320/320 [00:00<00:00, 977.07it/s] 
+load 4.1s device=cpu threads=4
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+multi_question-0 [450, 364, 356, 345, 319] d=7.391e-06 flips=0 meta_ok=True 28.5s
+multi_question-1 [5416, 5471, 5425, 5517, 5428] d=4.530e-06 flips=0 meta_ok=True 55.1s
+short_sb-themes-0 [105] d=2.980e-07 flips=0 meta_ok=True 8.2s
+short_sb-public_ingests-0 [382] d=6.020e-06 flips=0 meta_ok=True 9.4s
+short_sb-di_retrieval-0 [197] d=2.980e-07 flips=0 meta_ok=True 9.5s
+short_sb-di_knowledge-0 [72] d=1.669e-06 flips=0 meta_ok=True 8.9s
+short_sb-hard_short-0 [517] d=4.411e-06 flips=0 meta_ok=True 10.2s
+short_sb-format-0 [166] d=3.576e-06 flips=0 meta_ok=True 9.3s
+qtype_choice-0 [594] d=5.841e-06 flips=0 meta_ok=True 10.9s
+qtype_noul-0 [246] d=1.609e-06 flips=0 meta_ok=True 10.0s
+qtype_score-0 [873] d=3.934e-06 flips=0 meta_ok=True 12.3s
+multi_block_3k-0 [2927] d=1.132e-05 flips=0 meta_ok=True 24.8s
+multi_block_3k-1 [2932] d=2.146e-06 flips=0 meta_ok=True 23.2s
+multi_block_5k-0 [5011] d=4.798e-06 flips=0 meta_ok=True 37.1s
+multi_block_5k-1 [4767] d=5.364e-06 flips=0 meta_ok=True 36.3s
+multi_block_9k-s0 [9083] d=2.384e-06 flips=0 meta_ok=True 69.7s
+multi_block_9k-s1 [9568] d=2.310e-06 flips=0 meta_ok=True 77.4s
+prefix_boundary-2047 [2178] d=2.623e-06 flips=0 meta_ok=True 19.7s
+prefix_boundary-2048 [2203] d=3.457e-06 flips=0 meta_ok=True 20.8s
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+prefix_boundary-2049 [2289] d=4.530e-06 flips=0 meta_ok=True 28.7s
+prefix_boundary-4095 [4163] d=9.179e-06 flips=0 meta_ok=True 37.4s
+prefix_boundary-4096 [4312] d=4.292e-06 flips=0 meta_ok=True 39.8s
+prefix_boundary-4097 [4180] d=1.669e-06 flips=0 meta_ok=True 36.9s
+prefix_boundary-6144 [6259] d=5.722e-06 flips=0 meta_ok=True 61.6s
+catalogue_overflow-0 [4722] d=6.676e-06 flips=0 meta_ok=True 36.4s
+catalogue_overflow-1 [4721] d=7.153e-06 flips=0 meta_ok=True 36.2s
+catalogue_overflow-2 [4729] d=1.502e-05 flips=0 meta_ok=True 40.0s
+catalogue_overflow_long_state-0 [8806] d=6.437e-06 flips=0 meta_ok=True 64.5s
+many_options-0 [500] d=5.960e-06 flips=0 meta_ok=True 11.5s
+many_options-1 [423] d=3.815e-06 flips=0 meta_ok=True 10.2s
+long_16k-0 [15900] d=6.676e-06 flips=0 meta_ok=True 119.6s
+long_16k-1 [16384] d=2.086e-06 flips=0 meta_ok=True 120.1s
+long_16k-2 [16800] d=5.722e-06 flips=0 meta_ok=True 106.6s
+long_24k-0 [24000] d=3.815e-06 flips=0 meta_ok=True 163.9s
+long_24k-1 [25600] d=4.053e-06 flips=0 meta_ok=True 171.0s
+catalogue_overflow               n= 3 max|d|=1.502e-05 flips=0
+catalogue_overflow_long_state    n= 1 max|d|=6.437e-06 flips=0
+long_16k                         n= 3 max|d|=6.676e-06 flips=0
+long_24k                         n= 2 max|d|=4.053e-06 flips=0
+many_options                     n= 2 max|d|=5.960e-06 flips=0
+multi_block_3k                   n= 2 max|d|=1.132e-05 flips=0
+multi_block_5k                   n= 2 max|d|=5.364e-06 flips=0
+multi_block_9k                   n= 2 max|d|=2.384e-06 flips=0
+multi_question                   n=10 max|d|=7.391e-06 flips=0
+prefix_boundary                  n= 7 max|d|=9.179e-06 flips=0
+qtype_choice                     n= 1 max|d|=5.841e-06 flips=0
+qtype_noul                       n= 1 max|d|=1.609e-06 flips=0
+qtype_score                      n= 1 max|d|=3.934e-06 flips=0
+short_sb                         n= 6 max|d|=6.020e-06 flips=0
+ALL requests=35 questions=43 max|d|=1.502e-05 flips=0 meta_ok_all=True

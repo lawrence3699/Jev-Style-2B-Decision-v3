@@ -1,0 +1,304 @@
+{
+ "temperature": {
+  "mode": "global",
+  "source": "explicit --temperature",
+  "sha256": null,
+  "value": 0.8278650620942867,
+  "expected_2b_v3": 0.8278650621,
+  "fitted_on_benchmark_items": false
+ },
+ "sets": {
+  "tweet_topic": {
+   "n": 1693,
+   "n_ok": 1693,
+   "n_unsupported": 0,
+   "n_classes": 6,
+   "temperature": 0.8278650620942867,
+   "majority_class_accuracy": 0.3963378617838157,
+   "accuracy_ok_rows": 0.822209096278795,
+   "ece15": 0.027919883880813873,
+   "ece15_raw_T1": 0.08661185749227743,
+   "brier": 0.262576013332696,
+   "brier_raw_T1": 0.27079026328321404,
+   "nll": 0.5282712172517265,
+   "nll_raw_T1": 0.5629566855388951,
+   "mean_confidence": 0.7947445890391743,
+   "accuracy": 0.822209096278795,
+   "macro_f1": 0.677897069437572,
+   "balanced_accuracy": 0.7070231758410981,
+   "pred_share": {
+    "arts & culture": 0.045481393975191964,
+    "business & entrepreneurs": 0.040756054341405785,
+    "pop culture": 0.33786178381571175,
+    "daily life": 0.15416420555227406,
+    "sports & gaming": 0.36207914943886593,
+    "science & technology": 0.0596574128765505
+   },
+   "accuracy_ci95": [
+    0.8038984051978736,
+    0.8399438865918486
+   ],
+   "macro_f1_ci95": [
+    0.6455020683998111,
+    0.7085891187789015
+   ],
+   "ci": "percentile bootstrap, 10000 resamples, default_rng(0), rows resampled i.i.d.",
+   "tokens_mean": 106.1246308328411,
+   "tokens_max": 173,
+   "in_domain": false,
+   "catalogue_overflow": 0
+  },
+  "fin_topic": {
+   "n": 4117,
+   "n_ok": 4117,
+   "n_unsupported": 0,
+   "n_classes": 20,
+   "temperature": 0.8278650620942867,
+   "majority_class_accuracy": 0.2069468059266456,
+   "accuracy_ok_rows": 0.6111246052951178,
+   "ece15": 0.06460657860002232,
+   "ece15_raw_T1": 0.03822893519578447,
+   "brier": 0.5285731205072254,
+   "brier_raw_T1": 0.5230611042844824,
+   "nll": 1.159706614583174,
+   "nll_raw_T1": 1.1731574665843,
+   "mean_confidence": 0.6685232597080648,
+   "accuracy": 0.6111246052951178,
+   "macro_f1": 0.5897964463354406,
+   "balanced_accuracy": 0.6945435859869323,
+   "pred_share": {
+    "Analyst Update": 0.030604809327179985,
+    "Fed | Central Banks": 0.037891668690794265,
+    "Company | Product News": 0.1736701481661404,
+    "Treasuries | Corporate Debt": 0.014330823415108088,
+    "Dividend": 0.026961379645372846,
+    "Earnings": 0.09181442798153995,
+    "Energy | Oil": 0.050522224921059025,
+    "Financials": 0.013116346854505708,
+    "Currencies": 0.014087928102987613,
+    "General News | Opinion": 0.1034734029633228,
+    "Gold | Metals | Materials": 0.009230021860578091,
+    "IPO": 0.011416079669662375,
+    "Legal | Regulation": 0.030604809327179985,
+    "M&A | Investments": 0.04930774836045664,
+    "Macro": 0.056594607724070926,
+    "Markets": 0.060480932717998544,
+    "Politics": 0.05926645615739616,
+    "Personnel Change": 0.0456643186786495,
+    "Stock Commentary": 0.07189701238766091,
+    "Stock Movement": 0.04906485304833617
+   },
+   "accuracy_ci95": [
+    0.5960650959436483,
+    0.6259412193344669
+   ],
+   "macro_f1_ci95": [
+    0.5694510128995812,
+    0.6071880523494645
+   ],
+   "ci": "percentile bootstrap, 10000 resamples, default_rng(0), rows resampled i.i.d.",
+   "tokens_mean": 199.59825115375273,
+   "tokens_max": 301,
+   "in_domain": false,
+   "catalogue_overflow": 0
+  },
+  "daily_dialog": {
+   "n": 7740,
+   "n_ok": 7740,
+   "n_unsupported": 0,
+   "n_classes": 7,
+   "temperature": 0.8278650620942867,
+   "majority_class_accuracy": 0.8166666666666667,
+   "accuracy_ok_rows": 0.7744186046511627,
+   "ece15": 0.03934861337502408,
+   "ece15_raw_T1": 0.027480647988479354,
+   "brier": 0.3382397818519505,
+   "brier_raw_T1": 0.33726329383754494,
+   "nll": 0.6778540478231467,
+   "nll_raw_T1": 0.6808418072965744,
+   "mean_confidence": 0.807695045520859,
+   "accuracy": 0.7744186046511627,
+   "macro_f1": 0.3724097968832693,
+   "balanced_accuracy": 0.51014991333418,
+   "pred_share": {
+    "no emotion": 0.7905684754521963,
+    "anger": 0.01744186046511628,
+    "disgust": 0.013565891472868217,
+    "fear": 0.020284237726098192,
+    "happiness": 0.09056847545219639,
+    "sadness": 0.033850129198966405,
+    "surprise": 0.03372093023255814
+   },
+   "accuracy_ci95": [
+    0.7649870801033591,
+    0.7835917312661499
+   ],
+   "macro_f1_ci95": [
+    0.3480292808769088,
+    0.3955194464258293
+   ],
+   "ci": "percentile bootstrap, 10000 resamples, default_rng(0), rows resampled i.i.d.",
+   "tokens_mean": 79.59651162790698,
+   "tokens_max": 285,
+   "in_domain": false,
+   "catalogue_overflow": 0
+  }
+ },
+ "comparison": {
+  "source": "https://github.com/elcronos/jev-vs-open-decision-models/blob/a1901bc3d520e73936de8d4326545c0cdcf742fb/results/cross_dataset_summary.json",
+  "source_sha256": "5380d3a45395bfdf5340d75e7e18ecdb4b636734295d234839c7113efae608d0",
+  "note": "repository has no licence file: only its published numbers and the public datasets it names are used; no code was copied",
+  "clean": [
+   {
+    "set": "tweet_topic",
+    "n": 1693,
+    "majority": 0.3963378617838157,
+    "Jev-Style-2B-Decision-v3-GGUF-F16": {
+     "accuracy": 0.822209096278795,
+     "macro_f1": 0.677897069437572,
+     "ece15": 0.027919883880813873,
+     "ece15_raw_T1": 0.08661185749227743,
+     "brier": 0.262576013332696,
+     "n_unsupported": 0,
+     "accuracy_ci95": [
+      0.8038984051978736,
+      0.8399438865918486
+     ]
+    },
+    "jev": {
+     "accuracy": 0.7932663910218547,
+     "macro_f1": 0.6936,
+     "ece15": 0.0631,
+     "brier": 0.2935
+    },
+    "laya_en": {
+     "accuracy": 0.6320141760189013,
+     "macro_f1": 0.4611,
+     "ece15": 0.1295,
+     "brier": 0.5049
+    },
+    "prismnli": {
+     "accuracy": 0.6326048434731246,
+     "macro_f1": 0.5444,
+     "ece15": 0.181,
+     "brier": 0.5374
+    }
+   },
+   {
+    "set": "fin_topic",
+    "n": 4117,
+    "majority": 0.2069468059266456,
+    "Jev-Style-2B-Decision-v3-GGUF-F16": {
+     "accuracy": 0.6111246052951178,
+     "macro_f1": 0.5897964463354406,
+     "ece15": 0.06460657860002232,
+     "ece15_raw_T1": 0.03822893519578447,
+     "brier": 0.5285731205072254,
+     "n_unsupported": 0,
+     "accuracy_ci95": [
+      0.5960650959436483,
+      0.6259412193344669
+     ]
+    },
+    "jev": {
+     "accuracy": 0.669905270828273,
+     "macro_f1": 0.6298,
+     "ece15": 0.1664,
+     "brier": 0.5085
+    },
+    "laya_en": {
+     "accuracy": 0.3419965994656303,
+     "macro_f1": 0.3623,
+     "ece15": 0.6096,
+     "brier": 1.2494
+    },
+    "prismnli": {
+     "accuracy": 0.3524410978868108,
+     "macro_f1": 0.2558,
+     "ece15": 0.1986,
+     "brier": 0.8057
+    }
+   },
+   {
+    "set": "daily_dialog",
+    "n": 7740,
+    "majority": 0.8166666666666667,
+    "Jev-Style-2B-Decision-v3-GGUF-F16": {
+     "accuracy": 0.7744186046511627,
+     "macro_f1": 0.3724097968832693,
+     "ece15": 0.03934861337502408,
+     "ece15_raw_T1": 0.027480647988479354,
+     "brier": 0.3382397818519505,
+     "n_unsupported": 0,
+     "accuracy_ci95": [
+      0.7649870801033591,
+      0.7835917312661499
+     ]
+    },
+    "jev": {
+     "accuracy": 0.7099483204134367,
+     "macro_f1": 0.3847,
+     "ece15": 0.1563,
+     "brier": 0.4603
+    },
+    "laya_en": {
+     "accuracy": 0.6143410852713178,
+     "macro_f1": 0.2748,
+     "ece15": 0.208,
+     "brier": 0.6008
+    },
+    "prismnli": {
+     "accuracy": 0.7652454780361757,
+     "macro_f1": 0.3454,
+     "ece15": 0.1756,
+     "brier": 0.4091
+    }
+   }
+  ],
+  "in_domain": []
+ },
+ "ours_0.8b_v3": {
+  "label": "Jev-Style-0.8B-Decision-v3 (ours, v1 protocol)",
+  "sets": {
+   "tweet_topic": {
+    "accuracy": 0.754873006497342,
+    "macro_f1": 0.5993905130101003,
+    "ece15": 0.027434099256085594,
+    "ece15_raw_T1": 0.06193629176695822,
+    "brier": 0.3422167077233273,
+    "n": 1693,
+    "n_unsupported": 0
+   },
+   "fin_topic": {
+    "accuracy": 0.4670876852076755,
+    "macro_f1": 0.45174530293977544,
+    "ece15": 0.04596390350720937,
+    "ece15_raw_T1": 0.05647184359290005,
+    "brier": 0.6470044850625658,
+    "n": 4117,
+    "n_unsupported": 0
+   },
+   "daily_dialog": {
+    "accuracy": 0.32493540051679587,
+    "macro_f1": 0.2331496717992918,
+    "ece15": 0.4225022513967012,
+    "ece15_raw_T1": 0.3871480738216389,
+    "brier": 1.0441535348512228,
+    "n": 7740,
+    "n_unsupported": 0
+   }
+  },
+  "temperature": {
+   "policy": "global temperature of a family|qtype|option_bucket file",
+   "path": "runs/macjev/h100/evals/main/temperatures.json",
+   "sha256": "39ad8f6633934ff67770725993d7354ebebd6e7a08f73e50cab04df24715f2ce",
+   "version": "macjev-temperatures-v1",
+   "fitted_on": [
+    "pool_cal.jsonl:dfb7e9beff96c6c5"
+   ],
+   "T": 0.8800546821789332
+  },
+  "source": "runs/macjev/received/ext_evals/main/zeroshot_topics/metrics.json",
+  "source_sha256": "6c265318088f719a763a1919103632a247a8834c554d4b44326ea0c502cc0cf6"
+ }
+}

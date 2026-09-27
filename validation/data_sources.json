@@ -1,0 +1,641 @@
+{
+  "model": "chaoliangUNSW/Jev-Style-2B-Decision-v3",
+  "note": "Every source in the training rows of this model (58 sources). licence_recorded = the licence field stored with the rows in the training pool (one entry per distinct value; 'generated...' = generated for this project). components = the mixture-table rows of the model card. link = the dataset repository the rows were built from, where one exists (null for the 22 sources generated for this project). totals = rows and tokens actually drawn during training, repeats counted (the run's exposure record); per-source counts are not listed in this file. Check each source's own terms before use; see 'Training data and licences' on the model card.",
+  "totals": {
+    "sources": 58,
+    "trained_logical_rows": 181449,
+    "trained_tokens": 60032377
+  },
+  "sources": [
+    {
+      "id": "alisawuffles/WANLI",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/alisawuffles/WANLI",
+      "note": "written by GPT-3 and revised by crowdworkers"
+    },
+    {
+      "id": "allenai/ai2_arc",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/allenai/ai2_arc",
+      "share_alike": true
+    },
+    {
+      "id": "allenai/qasc",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/allenai/qasc"
+    },
+    {
+      "id": "allenai/qasper",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/allenai/qasper"
+    },
+    {
+      "id": "allenai/ropes",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/allenai/ropes"
+    },
+    {
+      "id": "clinc/clinc_oos",
+      "components": [
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "cc-by-3.0"
+      ],
+      "link": "https://huggingface.co/datasets/clinc/clinc_oos"
+    },
+    {
+      "id": "clinc150",
+      "components": [
+        "Intents and yes/no QA"
+      ],
+      "licence_recorded": [
+        "cc-by-3.0"
+      ],
+      "link": "https://huggingface.co/datasets/clinc/clinc_oos"
+    },
+    {
+      "id": "coastalcph/lex_glue",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/coastalcph/lex_glue"
+    },
+    {
+      "id": "czyssrs/FinQA",
+      "components": [
+        "Public reading tasks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "mit"
+      ],
+      "link": "https://github.com/czyssrs/FinQA"
+    },
+    {
+      "id": "deepmind/aqua_rat",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "apache-2.0"
+      ],
+      "link": "https://huggingface.co/datasets/deepmind/aqua_rat"
+    },
+    {
+      "id": "generated:crux_type_synth",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "google-research-datasets/mbpp",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/google-research-datasets/mbpp"
+    },
+    {
+      "id": "google-research-datasets/schema_guided_dstc8",
+      "components": [
+        "Retrieval and routing"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/google-research-datasets/schema_guided_dstc8",
+      "share_alike": true
+    },
+    {
+      "id": "google/boolq",
+      "components": [
+        "Intents and yes/no QA"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-3.0"
+      ],
+      "link": "https://huggingface.co/datasets/google/boolq",
+      "share_alike": true
+    },
+    {
+      "id": "google/civil_comments",
+      "components": [
+        "Themes"
+      ],
+      "licence_recorded": [
+        "cc0-1.0"
+      ],
+      "link": "https://huggingface.co/datasets/google/civil_comments"
+    },
+    {
+      "id": "hardfam:F1",
+      "components": [
+        "Hard cases"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "hard-case family written by an OpenAI GPT model; labels computed by code"
+    },
+    {
+      "id": "hardfam:F2",
+      "components": [
+        "Hard cases"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "hard-case family generated by code"
+    },
+    {
+      "id": "hardfam:F3",
+      "components": [
+        "Hard cases"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "hard-case family generated by code"
+    },
+    {
+      "id": "hardfam:F6",
+      "components": [
+        "Hard cases"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "hard-case family written by an OpenAI GPT model; labels computed by code"
+    },
+    {
+      "id": "hardfam:F9",
+      "components": [
+        "Hard cases"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "hard-case family generated by code"
+    },
+    {
+      "id": "hugosousa/TimeQA",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "bsd-3-clause-clear"
+      ],
+      "link": "https://huggingface.co/datasets/hugosousa/TimeQA"
+    },
+    {
+      "id": "jackhhao/jailbreak-classification",
+      "components": [
+        "Themes"
+      ],
+      "licence_recorded": [
+        "apache-2.0"
+      ],
+      "link": "https://huggingface.co/datasets/jackhhao/jailbreak-classification",
+      "note": "its jailbreak prompts come from the jailbreak_llms collection (research purposes only); part of the benign prompts come from GPTeacher (generated by GPT-4)"
+    },
+    {
+      "id": "Lakera/gandalf_ignore_instructions",
+      "components": [
+        "Themes"
+      ],
+      "licence_recorded": [
+        "mit"
+      ],
+      "link": "https://huggingface.co/datasets/Lakera/gandalf_ignore_instructions"
+    },
+    {
+      "id": "lasha-nlp/CONDAQA",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "apache-2.0"
+      ],
+      "link": "https://huggingface.co/datasets/lasha-nlp/CONDAQA"
+    },
+    {
+      "id": "legacy:generated_rules:approved_earliest",
+      "components": [
+        "Mac agent checks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "generated:round-1 project collectors and rule generator (mac_laya.tasks / trajectory_v2); no third-party text"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "legacy:generated_rules:cost_under_limit",
+      "components": [
+        "Mac agent checks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "generated:round-1 project collectors and rule generator (mac_laya.tasks / trajectory_v2); no third-party text"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "legacy:generated_rules:priority_max",
+      "components": [
+        "Mac agent checks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "generated:round-1 project collectors and rule generator (mac_laya.tasks / trajectory_v2); no third-party text"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "legacy:generated_rules:team_min_amount",
+      "components": [
+        "Mac agent checks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "generated:round-1 project collectors and rule generator (mac_laya.tasks / trajectory_v2); no third-party text"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "legacy:mac_v2:filesystem_policy",
+      "components": [
+        "Mac agent checks"
+      ],
+      "licence_recorded": [
+        "generated:round-1 project collectors and rule generator (mac_laya.tasks / trajectory_v2); no third-party text"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "Lichess/chess-puzzles",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "cc0-1.0"
+      ],
+      "link": "https://huggingface.co/datasets/Lichess/chess-puzzles"
+    },
+    {
+      "id": "macjev-synth:gsm_templates",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "macjev-synth:link_safety",
+      "components": [
+        "Retrieval and routing"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "macjev-synth:sata_type",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "macjev/long_table",
+      "components": [
+        "Long tables",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "generated:cc0 (programmatic synthetic tables)"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "macjev_sim:goal_done",
+      "components": [
+        "Mac agent checks"
+      ],
+      "licence_recorded": [
+        "generated:macjev-sim (synthetic states written by project code; no third-party text)"
+      ],
+      "link": null,
+      "note": "the project's own simulator; part of the goal wording was paraphrased by an OpenAI GPT model"
+    },
+    {
+      "id": "massive-1.1:intent",
+      "components": [
+        "Intents and yes/no QA"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/AmazonScience/massive"
+    },
+    {
+      "id": "mteb/banking77",
+      "components": [
+        "Retrieval and routing"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/mteb/banking77",
+      "note": "BANKING77 by PolyAI: CC BY 4.0 upstream (https://huggingface.co/datasets/PolyAI/banking77); rows taken from the MTEB mirror, whose card says MIT"
+    },
+    {
+      "id": "neuralchemy/Prompt-injection-dataset",
+      "components": [
+        "Themes",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "apache-2.0",
+        "cc-by-4.0",
+        "mit"
+      ],
+      "link": "https://huggingface.co/datasets/neuralchemy/Prompt-injection-dataset",
+      "note": "the upstream rows its card marks research-only were removed"
+    },
+    {
+      "id": "nvidia/HelpSteer2",
+      "components": [
+        "Public reading tasks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/nvidia/HelpSteer2",
+      "note": "responses mostly written by NVIDIA Nemotron models and Mixtral-8x7B-Instruct"
+    },
+    {
+      "id": "openai/gsm8k",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "mit"
+      ],
+      "link": "https://huggingface.co/datasets/openai/gsm8k"
+    },
+    {
+      "id": "openlifescienceai/medmcqa",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "apache-2.0"
+      ],
+      "link": "https://huggingface.co/datasets/openlifescienceai/medmcqa"
+    },
+    {
+      "id": "rajpurkar/squad_v2",
+      "components": [
+        "Themes"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/rajpurkar/squad_v2",
+      "share_alike": true
+    },
+    {
+      "id": "Rowan/hellaswag",
+      "components": [
+        "Language"
+      ],
+      "licence_recorded": [
+        "mit"
+      ],
+      "link": "https://huggingface.co/datasets/Rowan/hellaswag",
+      "note": "MIT only in the card text (no licence field); the original GitHub repository is blocked after a DMCA notice from wikiHow; only the ActivityNet-caption items were used"
+    },
+    {
+      "id": "stanfordnlp/snli",
+      "components": [
+        "Language"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/stanfordnlp/snli",
+      "share_alike": true
+    },
+    {
+      "id": "synth-v4:algo_reasoning",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "synth:causal_graph_scm",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "synth:clinical_trial_reports",
+      "components": [
+        "Language"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "synth:reasoning_relevance",
+      "components": [
+        "Retrieval and routing"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "generated for this project"
+    },
+    {
+      "id": "tau/commonsense_qa",
+      "components": [
+        "Knowledge and reasoning"
+      ],
+      "licence_recorded": [
+        "mit"
+      ],
+      "link": "https://huggingface.co/datasets/tau/commonsense_qa"
+    },
+    {
+      "id": "teacher:themes_jailbreak",
+      "components": [
+        "Themes"
+      ],
+      "licence_recorded": [
+        "generated:claude-opus-5.5"
+      ],
+      "link": null,
+      "note": "jailbreak and toxicity prompts written and labelled by an Anthropic Claude model"
+    },
+    {
+      "id": "theatticusproject/maud",
+      "components": [
+        "Public reading tasks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/theatticusproject/maud"
+    },
+    {
+      "id": "tonytan48/TempReason",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-3.0"
+      ],
+      "link": "https://huggingface.co/datasets/tonytan48/TempReason",
+      "share_alike": true
+    },
+    {
+      "id": "TrustAIRLab/in-the-wild-jailbreak-prompts",
+      "components": [
+        "Themes",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "mit"
+      ],
+      "link": "https://huggingface.co/datasets/TrustAIRLab/in-the-wild-jailbreak-prompts",
+      "note": "prompts from the jailbreak_llms collection, which states it is for research purposes only"
+    },
+    {
+      "id": "typed_synthetic",
+      "components": [
+        "Typed decisions"
+      ],
+      "licence_recorded": [
+        "generated"
+      ],
+      "link": null,
+      "note": "model-written business workflows: designed by OpenAI GPT and Anthropic Claude models, labelled by Claude models"
+    },
+    {
+      "id": "ucinlp/drop",
+      "components": [
+        "Public reading tasks",
+        "Option-format views"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/ucinlp/drop",
+      "share_alike": true
+    },
+    {
+      "id": "UCLNLP/sharc",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "cc-by-sa-3.0"
+      ],
+      "link": "https://huggingface.co/datasets/UCLNLP/sharc",
+      "share_alike": true
+    },
+    {
+      "id": "wenhu/tab_fact",
+      "components": [
+        "Public reading tasks"
+      ],
+      "licence_recorded": [
+        "cc-by-4.0"
+      ],
+      "link": "https://huggingface.co/datasets/wenhu/tab_fact"
+    },
+    {
+      "id": "yanismiraoui/prompt_injections",
+      "components": [
+        "Themes"
+      ],
+      "licence_recorded": [
+        "apache-2.0"
+      ],
+      "link": "https://huggingface.co/datasets/yanismiraoui/prompt_injections"
+    }
+  ]
+}
