@@ -1,7 +1,7 @@
 {
   "format": "jev-style-manifest-v1",
   "repo": "chaoliangUNSW/Jev-Style-2B-Decision-v3",
-  "created_unix": 1790476262.791195,
+  "created_unix": 1790481318.070555,
   "files": {
     "LICENSE": {
       "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a",
@@ -12,8 +12,8 @@
       "bytes": 2406
     },
     "README.md": {
-      "sha256": "b3d39950f74a583ec0e4e89afd779c99ccfe93da8f4d0d453fd423e84b561f6a",
-      "bytes": 25217
+      "sha256": "3f07b75392df2823e4b808859ece1fcb0a0f390afb968ff133e5eab2793b326d",
+      "bytes": 26205
     },
     "chat_template.jinja": {
       "sha256": "273d8e0e683b885071fb17e08d71e5f2a5ddfb5309756181681de4f5a1822d80",

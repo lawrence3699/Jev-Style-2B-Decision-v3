@@ -27,7 +27,27 @@ tags:
 
 **Jev-Style decision series:** [v1 · 2B](https://huggingface.co/chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-GGUF) → [v2 · 2B](https://huggingface.co/chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-v2) → [v3 · 0.8B](https://huggingface.co/chaoliangUNSW/Jev-Style-0.8B-Decision-v3) → **v3 · 2B (this model)**
 
-<!-- PIP_SNIPPET_AFTER_0.3.0 -->
+<!-- PIP_SNIPPET (jev-style 0.3.0, added 2026-09-27) -->
+**Quickest start: the [jev-style](https://github.com/lawrence3699/jev-style) package** (0.3.0 or later) downloads this
+model and serves a local `/v1/systemone` API (its default release is the 0.8B, so pass `--release 2b`):
+
+```bash
+pip install "jev-style[torch]"     # or "jev-style[mlx]" on Apple silicon (use the -MLX build there)
+jev-style serve --release 2b       # http://127.0.0.1:8765
+```
+
+```python
+from jev_style import JevStyle, choice, noul
+
+js = JevStyle.from_pretrained("chaoliangUNSW/Jev-Style-2B-Decision-v3")   # PyTorch; -MLX / -GGUF repo ids pick those builds
+out = js.decide("I was charged twice. Please fix this ASAP.", {
+    "billing": noul("This ticket is about billing."),
+    "tone": choice("What is the customer's tone?", ["calm", "frustrated", "angry"]),
+})
+print(out["answers"]["billing"]["noul"], out["answers"]["tone"]["choice"])
+```
+
+PyTorch on a CPU is slow for the 2B; on a Mac use the MLX build, elsewhere a GPU or the GGUF build.
 
 **Jev-style decisions, now at 2B.** Give it a state and typed questions; it returns a calibrated probability for
 every option in one pass. 1.88B parameters (text-only Qwen3.5-2B), open weights, Apache-2.0.
