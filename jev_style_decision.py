@@ -605,6 +605,15 @@ def _block_sdpa(module, query, key, value, attention_mask=None, dropout=0.0, sca
     import torch.nn.functional as F
     q_len, kv_len = query.shape[2], key.shape[2]
     expect = getattr(module, "jev_expect", None)
+    mask = getattr(module, "jev_mask", None)
+    if mask is not None:                    # CUDA-graph path: the whole input in one call, block-causal mask
+        if expect is not None or tuple(mask.shape[-2:]) != (q_len, kv_len) or attention_mask is not None:
+            raise RuntimeError("block-mask attention called with an unexpected geometry")
+        rep = query.shape[1] // key.shape[1]
+        if rep > 1:
+            key, value = key.repeat_interleave(rep, 1), value.repeat_interleave(rep, 1)
+        out = F.scaled_dot_product_attention(query, key, value, attn_mask=mask, scale=scaling)
+        return out.transpose(1, 2).contiguous(), None
     if expect is None or tuple(expect) != (q_len, kv_len):
         raise RuntimeError(f"block attention called with {q_len} queries / {kv_len} keys, expected {expect}: this "
                            f"model must be run through JevStyleDecision (one renderer block per forward call)")
@@ -655,6 +664,78 @@ def _pick_device(torch, device):
     return str(device)
 
 
+# ----------------------------------------------------------------------- CUDA graphs (optional, CUDA only)
+# The same computation as the block-by-block path above, in ONE forward call per question: the full-attention
+# layers get an explicit block-causal mask (a token attends to every token of its own and all earlier blocks) and
+# the Gated-DeltaNet layers run causally over the whole input, which is what the block path's cache carries over.
+# One graph per padded input length is recorded once and replayed. The padding is its own last block, so no real
+# token ever attends to it (and the recurrent layers are causal). Inputs longer than the largest recorded length,
+# or with more than GRAPH_MAX_SLOTS options, run the block path.
+GRAPH_LENGTHS = (64, 128, 192, 256, 320, 384, 448, 512, 640, 768, 896, 1024, 1280, 1536, 1792, 2048, 2560, 3072,
+                 3584, 4096)
+GRAPH_MAX_SLOTS = 256
+# The graph path re-reads the state for every question; the block path reads it once and shares it. Several questions
+# about one state stay on the block path when that would re-read more than this many state tokens.
+GRAPH_SHARED_STATE_MAX = 2048
+
+
+class _GraphRunner:
+    def __init__(self, model, attn_modules, direction, device, lengths=GRAPH_LENGTHS, max_slots=GRAPH_MAX_SLOTS):
+        import torch
+        self.torch, self.device, self.max_slots = torch, device, int(max_slots)
+        self.graphs = {}
+        pool = torch.cuda.graph_pool_handle()           # one memory pool: graphs are replayed one at a time
+        with torch.inference_mode():
+            for n in sorted({int(x) for x in lengths}, reverse=True):
+                ids = torch.zeros((1, n), dtype=torch.long, device=device)
+                blk = torch.zeros((n,), dtype=torch.long, device=device)
+                slots = torch.zeros((self.max_slots,), dtype=torch.long, device=device)
+
+                def forward(ids=ids, blk=blk, slots=slots):
+                    mask = (blk[None, :] <= blk[:, None])[None, None]
+                    for m in attn_modules:
+                        m.jev_mask = mask
+                    try:
+                        h = model.model(input_ids=ids, use_cache=False).last_hidden_state
+                    finally:
+                        for m in attn_modules:
+                            m.jev_mask = None
+                    return h[0].index_select(0, slots).float() @ direction
+
+                side = torch.cuda.Stream()
+                side.wait_stream(torch.cuda.current_stream())
+                with torch.cuda.stream(side):
+                    for _ in range(3):                      # warm-up: kernel autotuning happens outside the graph
+                        forward()
+                torch.cuda.current_stream().wait_stream(side)
+                graph = torch.cuda.CUDAGraph()
+                with torch.cuda.graph(graph, pool=pool):
+                    out = forward()
+                self.graphs[n] = (graph, ids, blk, slots, out)
+        self.lengths = sorted(self.graphs)
+
+    def scores(self, r):
+        """Scores of the verdict slots of one rendered question, or None when it does not fit a recorded graph."""
+        if len(r.slots) > self.max_slots:
+            return None
+        n = next((m for m in self.lengths if m >= len(r.ids)), None)
+        if n is None:
+            return None
+        torch = self.torch
+        graph, s_ids, s_blk, s_slots, out = self.graphs[n]
+        block_of = np.full(n, len(r.blocks), dtype=np.int64)        # padding = one more block after the input
+        for j, (s, e) in enumerate(r.blocks):
+            block_of[s:e] = j
+        with torch.inference_mode():                    # the static buffers are inference tensors
+            s_ids.zero_()
+            s_ids[0, :len(r.ids)].copy_(torch.tensor(r.ids, dtype=torch.long))
+            s_blk.copy_(torch.from_numpy(block_of))
+            s_slots.zero_()
+            s_slots[:len(r.slots)].copy_(torch.tensor(r.slots, dtype=torch.long))
+            graph.replay()
+            return out[:len(r.slots)].tolist()
+
+
 class JevStyleDecision(DecisionBase):
     """Transformers / PyTorch runtime (CUDA, Apple MPS or CPU).
 
@@ -670,6 +751,9 @@ class JevStyleDecision(DecisionBase):
     threads: torch CPU threads (torch.set_num_threads; process-wide).
     attn_chunk: queries per SDPA call inside a block (default: 1,024 on MPS, whole block elsewhere).
     keep_state: keep the last state's cache for the next call with the identical state (exact match).
+    cuda_graphs: True (device="cuda" only) records one CUDA graph per padded input length at start-up and replays
+        it: one forward with an explicit block-causal mask, several times faster for short calls, same weights and
+        readout (see release_config.json -> runtime.cuda_graphs); longer inputs keep the block path.
     category: accepted for compatibility with the 0.8B v3 runtime and ignored (one global temperature).
 
     decide(state, question, options=None, qtype=None, category=None, temperature=None, head_max=None, max_len=None)
@@ -682,7 +766,7 @@ class JevStyleDecision(DecisionBase):
     backend = "torch"
 
     def __init__(self, model_dir=HERE, device=None, dtype="float32", *, max_len=CONTEXT_LIMIT, temperature=None,
-                 threads=None, attn_chunk=None, keep_state=True, verify=False, category=None):
+                 threads=None, attn_chunk=None, keep_state=True, verify=False, category=None, cuda_graphs=False):
         import torch
         self.torch = torch
         model_dir = Path(model_dir)
@@ -734,6 +818,13 @@ class JevStyleDecision(DecisionBase):
         self.direction = (w[self.renderer.yes].float() - w[self.renderer.no].float()).detach()
         self.keep_state = bool(keep_state)
         self._kept = None                                       # (state token ids, cache after the state blocks)
+        for m in self._attn:
+            m.jev_mask = None
+        self.cuda_graphs = None
+        if cuda_graphs:
+            if kind != "cuda":
+                raise ValueError("cuda_graphs=True needs device='cuda'")
+            self.cuda_graphs = _GraphRunner(self.model, self._attn, self.direction, self.device)
 
     # -- model calls
     def _block(self, ids, start, stop, cache):
@@ -764,6 +855,16 @@ class JevStyleDecision(DecisionBase):
         return cache
 
     def _scores_many(self, rendered):
+        if self.cuda_graphs is None or rendered[0].prefix_len * (len(rendered) - 1) > GRAPH_SHARED_STATE_MAX:
+            return self._scores_many_blocks(rendered)
+        out = [self.cuda_graphs.scores(r) for r in rendered]
+        rest = [r for r, o in zip(rendered, out) if o is None]
+        if rest:
+            more = iter(self._scores_many_blocks(rest))
+            out = [o if o is not None else next(more) for o in out]
+        return out
+
+    def _scores_many_blocks(self, rendered):
         torch = self.torch
         out = []
         with torch.inference_mode():
@@ -796,9 +897,11 @@ def main(argv=None):
     ap.add_argument("--dtype", default="float32", choices=["float32", "bfloat16"],
                     help="bfloat16 on CUDA only; the readout is float32 either way")
     ap.add_argument("--threads", type=int, help="torch CPU threads")
+    ap.add_argument("--cuda-graphs", action="store_true",
+                    help="CUDA only: record CUDA graphs at start-up and replay them (much faster short inputs)")
     args = ap.parse_args(argv)
     engine = JevStyleDecision(args.model_dir, device=args.device, dtype=args.dtype, max_len=args.max_len,
-                              threads=args.threads, verify=args.verify)
+                              threads=args.threads, verify=args.verify, cuda_graphs=args.cuda_graphs)
     return run_cli(args, engine)
 
 

@@ -187,6 +187,18 @@ any format was scored. All five pass.
 
 <!-- LATENCY:END -->
 
+### CUDA graphs: 6× faster short calls on CUDA
+
+`JevStyleDecision(".", device="cuda", cuda_graphs=True)` (CLI `--cuda-graphs`; on by default on CUDA in [`jev-style`](https://github.com/lawrence3699/jev-style) 0.4.0 and later) records one CUDA graph per padded input length at start-up (about 11 s) and replays it. Same weights and readout: on 4,992 held-out calibration questions it picked the same answer as the ordinary path every time (largest probability difference 0.0024).
+
+| RTX 5090, float32 | ordinary path | CUDA graphs |
+|---|---:|---:|
+| median | 86.2 ms | **13.9 ms** |
+| mean | 122.8 ms | 53.6 ms |
+| p95 | 286.7 ms | 283.3 ms |
+
+<sub>One request at a time, warm, 1,000 requests sampled from a 3,758-request calibration set (4,992 questions, mostly up to 4K tokens, about a quarter non-English); wall time around `decide_many`. torch 2.14.1+cu130, transformers 5.18.0, flash-linear-attention 0.5.2. Inputs over 4,096 tokens, more than 256 options, or several questions about one long state (re-reading it would cost more than 2,048 state tokens) use the block path, which reads the state once.</sub>
+
 ## Results
 
 All public benchmarks were pre-declared: GGUF F16 engine, each benchmark run once, one global temperature fitted

@@ -93,6 +93,32 @@
     "not_supported": {
       "--category": "no category/group temperatures (one global T)",
       "--head-max": "no question/options cap (25,600-token total budget only)"
+    },
+    "cuda_graphs": {
+      "default": false,
+      "added": "2026-10-03",
+      "what": "cuda_graphs=True (CLI --cuda-graphs, CUDA only) records one CUDA graph per padded input length (64..4,096 tokens, up to 256 options) at start-up and replays it; right padding never reaches a verdict slot; one forward with an explicit block-causal mask (padding = its own last block) instead of block-by-block calls; several questions about a long state keep the block path; anything else uses the ordinary path",
+      "parity": {
+        "questions": 4992,
+        "requests": 3758,
+        "top1_changes": 0,
+        "max_abs_probability_difference": 0.002379,
+        "max_abs_score_difference": 0.008682
+      },
+      "latency_ms": {
+        "ordinary": {
+          "median_ms": 86.193,
+          "p95_ms": 286.716,
+          "mean_ms": 122.825
+        },
+        "cuda_graphs": {
+          "median_ms": 13.914,
+          "p95_ms": 283.328,
+          "mean_ms": 53.642
+        }
+      },
+      "capture_seconds": 10.5,
+      "measured": "RTX 5090 (32 GB), torch 2.14.1+cu130, transformers 5.18.0, flash-linear-attention 0.5.2, float32; 4,992 questions / 3,758 requests of a held-out calibration set; latency = wall time around decide_many, one request at a time, warm, 1,000 requests sampled with random.Random(0)"
     }
   },
   "format_gates": {
